@@ -9,6 +9,8 @@ A tavern card game under the stars. Nine squares, ten cards, one winner.
 3. After a minute or two the game is live at `https://<your-username>.github.io/<repository-name>/`.
 
 ## Installing on a phone
+#
+## [▶ Play Solaris Gambit](https://kralnu90.github.io/solaris-gambit/)
 
 Open the address in Chrome and tap **Install app** (or menu → **Add to Home screen**). On iPhone use Safari → Share → **Add to Home Screen**.
 
