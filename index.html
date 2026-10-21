@@ -531,14 +531,14 @@ function addCoins(n){SAVE.coins+=n; if(n>0) SFX.coin();}
 
 /* ---------- rivals & banter ---------- */
 const RIVALS=[
- {name:'Pip',title:'The stablehand who taught himself to play behind the hay bales.',lv:[1,2],rules:{open:1},trade:'one',diff:'easy',sig:'b7',pay:10},
- {name:'Old Marta',title:'Runs the Lantern Inn, and every card game in it.',lv:[1,3],rules:{open:1,same:1},trade:'one',diff:'easy',sig:'b13',pay:15},
- {name:'Brother Aldric',title:'A monk who does sums in his sleep.',lv:[2,3],rules:{open:1,plus:1},trade:'one',diff:'normal',sig:'b16',pay:20},
- {name:'Captain Ves',title:'Harbour captain. Plays the tides as much as the cards.',lv:[2,4],rules:{open:1,same:1,elemental:1},trade:'one',diff:'normal',sig:'b26',pay:30},
- {name:'Sel & Nara',title:'Twins who never deal the same hand twice.',lv:[3,4],rules:{same:1,wall:1,combo:1,random:1},trade:'diff',diff:'normal',sig:'b31',pay:40},
- {name:'Lady Corvina',title:'A noble with a taste for winning big.',lv:[3,5],rules:{same:1,plus:1,combo:1,elemental:1},trade:'diff',diff:'hard',sig:'b37',pay:55},
- {name:'The Hexbound Stranger',title:'A hooded figure. Something else watches through his eyes.',lv:[4,5],rules:{open:1,same:1,plus:1,combo:1,sudden:1},trade:'direct',diff:'hard',sig:'b33',legend:'L0',pay:75},
- {name:'Mellana',title:'She first appeared in a dream. Now she deals the cards.',lv:[4,5],rules:{same:1,plus:1,combo:1,wall:1,elemental:1,sudden:1},trade:'one',diff:'hard',sig:'b36',legend:'L1',pay:100}
+ {name:'Pip',title:'The stablehand who taught himself to play behind the hay bales.',lv:[1,2],rules:{open:1},trade:'one',diff:'easy',skill:.12,tier:'Gentle',sig:'b7',pay:10},
+ {name:'Old Marta',title:'Runs the Lantern Inn, and every card game in it.',lv:[1,3],rules:{open:1,same:1},trade:'one',diff:'easy',skill:.25,tier:'Gentle',sig:'b13',pay:15},
+ {name:'Brother Aldric',title:'A monk who does sums in his sleep.',lv:[2,3],rules:{open:1,plus:1},trade:'one',diff:'normal',skill:.4,tier:'Steady',sig:'b16',pay:20},
+ {name:'Captain Ves',title:'Harbour captain. Plays the tides as much as the cards.',lv:[2,4],rules:{open:1,same:1,elemental:1},trade:'one',diff:'normal',skill:.5,tier:'Steady',sig:'b26',pay:30},
+ {name:'Sel & Nara',title:'Twins who never deal the same hand twice.',lv:[3,4],rules:{same:1,wall:1,combo:1,random:1},trade:'diff',diff:'normal',skill:.62,tier:'Sharp',sig:'b31',pay:40},
+ {name:'Lady Corvina',title:'A noble with a taste for winning big.',lv:[3,5],rules:{same:1,plus:1,combo:1,elemental:1},trade:'diff',diff:'hard',skill:.74,tier:'Sharp',sig:'b37',pay:55},
+ {name:'The Hexbound Stranger',title:'A hooded figure. Something else watches through his eyes.',lv:[4,5],rules:{open:1,same:1,plus:1,combo:1,sudden:1},trade:'direct',diff:'hard',skill:.88,tier:'Ruthless',sig:'b33',legend:'L0',pay:75},
+ {name:'Mellana',title:'She first appeared in a dream. Now she deals the cards.',lv:[4,5],rules:{same:1,plus:1,combo:1,wall:1,elemental:1,sudden:1},trade:'one',diff:'hard',skill:1,tier:'Ruthless',sig:'b36',legend:'L1',pay:100}
 ];
 const BANTER=[
  {start:["Oh! A game? Go easy, yeah?","I've been practising behind the hay bales."],friendly:["Just for fun? Phew.","No stakes? I can actually breathe."],
@@ -649,7 +649,7 @@ function renderRivals(){
     const prize=r.legend&&!SAVE.coll[r.legend]?`<span class="chip trade">First win: legend card</span>`:'';
     return `<div class="rival ${open?'':'locked'}"><div style="min-width:0"><h3>${esc(r.name)}</h3><p>${esc(r.title)}</p></div>
       <button class="primary" data-rival="${i}" ${open?'':'disabled'}>Play</button>
-      <div class="meta">${tag}<span class="chip">Lv ${r.lv[0]}–${r.lv[1]}</span><span class="chip">${r.diff[0].toUpperCase()+r.diff.slice(1)}</span><span class="chip">Win: ${r.pay}${SAVE.beaten[i]?'':'×2'} coins</span>${chips}${prize}</div></div>`;
+      <div class="meta">${tag}<span class="chip">Lv ${r.lv[0]}–${r.lv[1]}</span><span class="chip">${r.tier}</span><span class="chip">Win: ${r.pay}${SAVE.beaten[i]?'':'×2'} coins</span>${chips}${prize}</div></div>`;
   }).join('');
 }
 $('rivalList').addEventListener('click',e=>{
@@ -834,7 +834,7 @@ function setupMatch(o){
   hideBubble(); show('game'); setStatus(''); render();
 }
 function startRival(ri){
-  const r=RIVALS[ri]; const rules={diff:r.diff,...r.rules};
+  const r=RIVALS[ri]; const rules={skill:r.skill,...r.rules};
   setupMatch({mode:'rival',ri,persona:ri,rules,ph:rules.random?collHand():deckHand(),oh:oppHand(r),title:r.name});
   rpsPanel();
 }
@@ -848,7 +848,7 @@ function startFriendly(){
 function startDaily(){
   const key=todayKey(), R=seeded('ninefold-'+key);
   const persona=rnd(RIVALS.length,R);
-  const rules={open:1,diff:'normal'}; ['same','plus','combo','wall','elemental'].forEach(k=>{if(R()<.4) rules[k]=1});
+  const rules={open:1,skill:'classic'}; ['same','plus','combo','wall','elemental'].forEach(k=>{if(R()<.4) rules[k]=1});
   if(rules.wall&&!rules.same) rules.same=1;
   const used=new Set(); const ph=onePerLevel(used,[1,2,3,4,5],R), oh=onePerLevel(used,[2,3,4,4,5],R);
   const elems=rules.elemental?genElems(R):null;
@@ -1025,16 +1025,23 @@ function overtime(){
 /* ---------- AI ---------- */
 function exposure(b,owner){let e=0; b.forEach((x,i)=>{if(!x||x.o!==owner) return; neighbors(i).forEach(({d,n})=>{if(!b[n]) e+=(10-(x.inst.c.v[d]+x.m))/10})}); return e;}
 function bestReply(b,owner){let best=0; const em=b.map((x,i)=>x?-1:i).filter(i=>i>=0); for(const c of M.hands[owner]) for(const e of em){const f=resolve(b,c,e,owner).flips.length; if(f>best) best=f;} return best;}
+const HOUSE_SKILL={easy:.15,normal:.45,hard:1};
 function aiMove(){
   if(M.mode==='tutorial'){const p=TUT.pip[M.pstep++]; return {hi:M.hands.o.findIndex(x=>x.k===p.card),e:p.cell};}
-  const moves=[], em=M.board.map((x,i)=>x?-1:i).filter(i=>i>=0), diff=M.rules.diff;
+  // skill runs from 0 (careless) to 1 (merciless). 'classic' is the original steady player, kept for the daily challenge.
+  const moves=[], em=M.board.map((x,i)=>x?-1:i).filter(i=>i>=0);
+  let skill=M.rules.skill??HOUSE_SKILL[M.rules.diff]??.45;
+  const classic=skill==='classic'; if(classic) skill=.5;
+  const blunder=classic?0:Math.max(0,.5-skill*.55);
+  if(Math.random()<blunder) return pickOne(moves.length?moves:(M.hands.o.flatMap((c,hi)=>em.map(e=>({hi,e})))));
+  const noise=classic?0:(1-skill)*1.6, guard=classic?.35:.35*skill, look=classic?0:skill>=.7?.9*(skill-.7)/.3:0;
   M.hands.o.forEach((c,hi)=>em.forEach(e=>{
     const r=resolve(M.board,c,e,'o');
-    let sc=r.flips.length-exposure(r.b,'o')*0.35;
-    if(diff==='hard'){sc-=0.9*bestReply(r.b,'p'); sc-=c.c.lvl*0.08;}
+    let sc=r.flips.length-exposure(r.b,'o')*guard+(Math.random()-.5)*noise;
+    if(look){sc-=look*bestReply(r.b,'p');}
+    if(skill>=1) sc-=c.c.lvl*0.08;
     moves.push({hi,e,sc});
   }));
-  if(diff==='easy'&&Math.random()<0.45) return pickOne(moves);
   moves.sort((a,b)=>b.sc-a.sc);
   return pickOne(moves.filter(m=>m.sc>=moves[0].sc-0.01));
 }
