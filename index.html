@@ -135,11 +135,30 @@ button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-vis
   .hand{flex-direction:column; min-height:0; min-width:var(--hw); gap:0}
   .hand .slot + .slot{margin-top:calc(var(--hh) * -0.45)}
   .hand.mine .slot.sel{transform:translateX(-14px)}
+  .hand.opp .slot.sel{transform:translateX(14px)}
   .status{min-height:1.4em; font-size:.88rem}
   .bubble{left:0; top:50%; transform:translate(calc(-100% - 10px),-50%) scale(.96); max-width:min(240px, 28vw)}
   .bubble.show{transform:translate(calc(-100% - 10px),-50%) scale(1)}
   .bubble::after{display:none}
 }
+
+/* goals, puzzles, notices */
+.notice{position:fixed; left:50%; top:calc(env(safe-area-inset-top,0px) + 10px); transform:translate(-50%,-160%); background:var(--panel-2); border:1px solid var(--brass); color:var(--ink); border-radius:10px; padding:9px 14px; z-index:40; transition:transform .35s ease; max-width:min(92vw,380px); box-shadow:0 8px 24px var(--shade); font-size:.9rem; display:flex; gap:8px; align-items:center; flex-wrap:wrap; justify-content:center; text-align:center}
+.notice.show{transform:translate(-50%,0)}
+.goal{display:grid; grid-template-columns:1fr auto; gap:6px 12px; align-items:center; padding:12px 14px; border:1px solid var(--brass-dim); border-radius:10px; background:rgba(14,10,30,.6)}
+.goal.done{border-color:rgba(111,211,154,.55)} .goal.done h3{color:var(--good)}
+.goal h3{margin:0; font:700 .95rem var(--display)} .goal p{margin:2px 0 0; color:var(--muted); font-size:.85rem}
+.bar2{grid-column:1/-1; height:6px; border-radius:3px; background:rgba(255,255,255,.08); overflow:hidden} .bar2 i{display:block; height:100%; background:var(--brass)}
+.pgrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:10px}
+.ptile{display:grid; gap:4px; align-content:start; text-align:left; padding:12px; border:1px solid var(--brass-dim); border-radius:10px; background:rgba(14,10,30,.6); color:var(--ink); cursor:pointer; font:inherit; position:relative}
+.ptile:hover{border-color:var(--brass)} .ptile.done{border-color:rgba(111,211,154,.55)}
+.ptile b{font:700 1rem var(--display)} .ptile span{color:var(--muted); font-size:.82rem}
+.ptile .pnum{font:800 .75rem var(--display); color:var(--brass); letter-spacing:.1em}
+.ptile .pstate{color:var(--brass); font-weight:700} .ptile.done .pstate{color:var(--good)}
+.menu button:disabled{opacity:.45; cursor:default}
+.hand.opp .slot.sel{transform:translateY(10px); z-index:3}
+.namefield{display:grid; gap:4px; font-size:.85rem; color:var(--muted)}
+.namefield input{background:rgba(6,4,16,.7); color:var(--ink); border:1px solid var(--brass-dim); border-radius:6px; padding:8px; font:inherit; font-size:1rem}
 
 /* cards */
 .card{position:relative; width:100%; height:100%; border-radius:7px; overflow:hidden; color:#fff; box-shadow:inset 0 0 0 1px rgba(255,255,255,.2), 0 4px 10px var(--shade); text-align:left}
@@ -250,6 +269,7 @@ textarea{width:100%; box-sizing:border-box; min-height:90px; font:.8rem/1.35 ui-
 </head>
 <body>
 <canvas id="sky" aria-hidden="true"></canvas>
+<div class="notice" id="notice" role="status" aria-live="polite"></div>
 
 <!-- HOME -->
 <section class="screen" id="home">
@@ -307,7 +327,7 @@ textarea{width:100%; box-sizing:border-box; min-height:90px; font:.8rem/1.35 ui-
 <!-- FORGE -->
 <section class="screen" id="forge" hidden>
   <div class="bar"><button class="pill" data-go="home">‹ Back</button><h2>Card Forge</h2><span style="width:62px"></span></div>
-  <p class="note">Design a card for your collection. Its four numbers can total up to 30, with at most one A. The total sets its level. Forged cards can't be lost in trades.</p>
+  <p class="note">Design your own signature card. Your point limit starts at 14 and grows by 2 for every rival you beat, up to 30, with at most one A. Forging costs coins, you can bring one forged card per deck, and forged cards can't be lost in trades.</p>
   <div class="forge">
     <div class="preview" id="fPreview"></div>
     <div class="forgebox">
@@ -315,9 +335,9 @@ textarea{width:100%; box-sizing:border-box; min-height:90px; font:.8rem/1.35 ui-
       <label class="field">Element<select id="fEl"></select></label>
       <div class="field">Numbers (1–10, 10 shows as A)
         <div class="diamond">
-          <span></span><input id="fT" type="number" min="1" max="10" value="7" aria-label="Top"><span></span>
-          <input id="fL" type="number" min="1" max="10" value="6" aria-label="Left"><span></span><input id="fR" type="number" min="1" max="10" value="7" aria-label="Right">
-          <span></span><input id="fB" type="number" min="1" max="10" value="5" aria-label="Bottom"><span></span>
+          <span></span><input id="fT" type="number" min="1" max="10" value="4" aria-label="Top"><span></span>
+          <input id="fL" type="number" min="1" max="10" value="3" aria-label="Left"><span></span><input id="fR" type="number" min="1" max="10" value="4" aria-label="Right">
+          <span></span><input id="fB" type="number" min="1" max="10" value="3" aria-label="Bottom"><span></span>
         </div>
       </div>
       <div class="muted" id="fTotal"></div>
@@ -327,6 +347,19 @@ textarea{width:100%; box-sizing:border-box; min-height:90px; font:.8rem/1.35 ui-
   </div>
   <div class="lvhead">Your forged cards</div>
   <div class="grid" id="customList"></div>
+</section>
+
+<!-- PUZZLES -->
+<section class="screen" id="puzzles" hidden>
+  <div class="bar"><button class="pill" data-go="home">‹ Back</button><h2>Puzzles</h2><span style="width:62px"></span></div>
+  <p class="note" id="puzNote"></p>
+  <div class="pgrid" id="puzList"></div>
+</section>
+
+<!-- GOALS -->
+<section class="screen" id="goals" hidden>
+  <div class="bar"><button class="pill" data-go="home">‹ Back</button><h2>Goals</h2><span class="coins" id="goalCoins"></span></div>
+  <div id="goalList" style="display:grid; gap:10px"></div>
 </section>
 
 <!-- BACKUP -->
@@ -368,6 +401,19 @@ textarea{width:100%; box-sizing:border-box; min-height:90px; font:.8rem/1.35 ui-
     <button class="primary" id="saveRules">Save house rules</button>
   </div>
 </div>
+
+<!-- PASS AND PLAY -->
+<div class="overlay" id="pvpPanel" hidden>
+  <div class="panel">
+    <h2>Pass and Play</h2>
+    <p>Two players, one phone. Each of you gets a random hand with one card of every level. Your house rules apply.</p>
+    <label class="namefield">Blue player<input id="pvpP1" maxlength="16" autocomplete="off"></label>
+    <label class="namefield">Red player<input id="pvpP2" maxlength="16" autocomplete="off"></label>
+    <label class="rule"><input type="checkbox" id="pvpOpen"><span><b>Open Hand</b>Both hands face up. Leave it off to hide hands and pass the phone between turns.</span></label>
+    <div class="row"><button class="primary" id="pvpStart">Deal</button><button class="pill" id="pvpCancel">Cancel</button></div>
+  </div>
+</div>
+<div class="overlay" id="passPanel" hidden><div class="panel" id="passBody"></div></div>
 
 <!-- FIRST MOVE -->
 <div class="overlay" id="firstPanel" hidden><div class="panel" id="firstBody"></div></div>
@@ -514,6 +560,8 @@ function migrate(s){
   s.house||={open:true,same:true,plus:false,combo:true,wall:false,elemental:false,sudden:false,diff:'normal'};
   if(typeof s.house.quickDeck!=='boolean') s.house.quickDeck=true;
   s.rps||={}; s.daily||={}; s.tutorialDone=!!s.tutorialDone;
+  s.puzzles||={}; s.ach||={}; s.bounty||={}; s.salt||=Math.random().toString(36).slice(2,8);
+  s.stats||={}; s.stats.packs||=0; s.stats.dailyWins||=0; s.stats.rpsStreak||=0; s.stats.ev||={};
   return s;
 }
 let SAVE=migrate(store.get('ninefold-save',null)||newSave());
@@ -525,9 +573,11 @@ const collTotal=()=>Object.values(SAVE.coll).reduce((a,b)=>a+b,0);
 const isProtected=k=>def(k).kind!=='base';
 function gain(k){SAVE.coll[k]=(SAVE.coll[k]||0)+1; SAVE.seen[k]=1}
 function lose(k){ if(isProtected(k)||!SAVE.coll[k]||collTotal()<=5) return false; if(--SAVE.coll[k]<=0) delete SAVE.coll[k]; fixDeck(); return true; }
-function fixDeck(){const used={}; SAVE.deck=SAVE.deck.filter(k=>{used[k]=(used[k]||0)+1; return def(k)&&used[k]<=(SAVE.coll[k]||0)});}
+const isForged=k=>def(k)&&def(k).kind==='custom';
+function fixDeck(){const used={}; let forged=0; SAVE.deck=SAVE.deck.filter(k=>{used[k]=(used[k]||0)+1; if(!def(k)||used[k]>(SAVE.coll[k]||0)) return false; if(isForged(k)&&forged++) return false; return true;});}
+function limitForged(list,n=5){let f=0; return list.filter(k=>!isForged(k)||!f++).slice(0,n);}
 const deckReady=()=>{fixDeck(); return SAVE.deck.length===5};
-function addCoins(n){SAVE.coins+=n; if(n>0) SFX.coin();}
+function addCoins(n){SAVE.coins+=n; if(n>0) SFX.coin(); if(SAVE.coins>=500&&SAVE.ach&&!SAVE.ach.rich) unlockAch('rich');}
 
 /* ---------- rivals & banter ---------- */
 const RIVALS=[
@@ -604,10 +654,10 @@ function cardHTML(c,owner,o={}){
 const gItem=(c,o={})=>`<button class="gitem ${o.cls||''}" ${o.attr||''} ${o.disabled?'disabled':''}><div class="gcard">${cardHTML(c,o.owner||'n',o)}</div><div class="gcap"><b>${o.unknown?'???':esc(c.name)}</b>${o.cap||''}</div>${o.count?`<span class="count">×${o.count}</span>`:''}${o.isNew?'<span class="newtag">NEW</span>':''}</button>`;
 
 /* ---------- screens ---------- */
-const SCREENS=['home','rivals','game','deck','collection','forge','shop','backup'];
+const SCREENS=['home','rivals','game','deck','collection','forge','shop','backup','puzzles','goals'];
 function show(id){
   SCREENS.forEach(s=>$(s).hidden=s!==id); window.scrollTo(0,0);
-  ({home:renderHome,rivals:renderRivals,deck:renderDeck,collection:renderColl,forge:renderForge,shop:renderShop,backup:renderBackup}[id]||(()=>{}))();
+  ({home:renderHome,rivals:renderRivals,deck:renderDeck,collection:renderColl,forge:renderForge,shop:renderShop,backup:renderBackup,puzzles:renderPuzzles,goals:renderGoals}[id]||(()=>{}))();
 }
 document.addEventListener('click',e=>{
   if(e.target.closest('[data-mute]')){SAVE.sound=!SAVE.sound; persist(); syncMute(); if(SAVE.sound) SFX.tap(); return;}
@@ -616,6 +666,7 @@ document.addEventListener('click',e=>{
   if(t==='quick') startFriendly();
   else if(t==='daily') startDaily();
   else if(t==='tutorial') startTutorial();
+  else if(t==='pvp') openPvp();
   else if(t==='howto'){syncHouse(); $('howto').hidden=false;}
   else show(t);
 });
@@ -633,9 +684,12 @@ function renderHome(){
   if(!SAVE.tutorialDone) items.push(`<button class="main" data-go="tutorial"><div><b>Learn to play</b><br><span>A quick guided game with Pip. Earns 20 coins.</span></div><span>›</span></button>`);
   items.push(`<button class="${SAVE.tutorialDone?'main':''}" data-go="rivals"><div><b>Challenge a rival</b><br><span>${next<0?'Every rival beaten. Rematches still pay out.':'Next up: '+esc(RIVALS[next].name)}</span></div><span>›</span></button>`);
   items.push(`<button data-go="daily"><div><b>Daily challenge</b><br><span>${daily?'Done for today. Come back tomorrow.':'Same hands for everyone today. Win for 25 coins.'}</span></div><span>›</span></button>`);
-  items.push(`<button data-go="quick"><div><b>Friendly game</b><br><span>A rival you've met, your house rules, nothing at stake.</span></div><span>›</span></button>`);
+  const B=bountyOpen()?(ensureBounty(),SAVE.bounty):null, bdone=B?B.ids.filter(i=>B.done[i]).length:0, achN=ACH.filter(x=>SAVE.ach[x.id]).length;
+  const pz=Object.keys(SAVE.puzzles).length;
+  items.push(`<div class="two"><button data-go="quick"><div><b>Friendly</b><br><span>No stakes, house rules</span></div></button><button data-go="pvp"><div><b>Pass &amp; play</b><br><span>Two players, one phone</span></div></button></div>`);
+  items.push(`<div class="two"><button data-go="puzzles" ${SAVE.tutorialDone?'':'disabled'}><div><b>Puzzles</b><br><span>${SAVE.tutorialDone?`${pz} of ${PUZZLES.length} solved`:'Finish the tutorial'}</span></div></button><button data-go="goals"><div><b>Goals</b><br><span>${B?`Bounties ${bdone}/3`:'Achievements'} · ${achN}/${ACH.length}</span></div></button></div>`);
   items.push(`<div class="two"><button data-go="deck"><div><b>Deck</b><br><span>${deckReady()?'Ready':'Needs 5 cards'}</span></div></button><button data-go="shop"><div><b>Shop</b><br><span>Card packs</span></div></button></div>`);
-  items.push(`<div class="two"><button data-go="collection"><div><b>Collection</b><br><span>${found} of ${total} found</span></div></button><button data-go="forge"><div><b>Forge</b><br><span>Make cards</span></div></button></div>`);
+  items.push(`<div class="two"><button data-go="collection"><div><b>Collection</b><br><span>${found} of ${total} found</span></div></button><button data-go="forge"><div><b>Forge</b><br><span>Limit ${forgeCap()} points</span></div></button></div>`);
   items.push(`<div class="two"><button data-go="howto"><div><b>How to play</b><br><span>Rules and house rules</span></div></button><button data-go="backup"><div><b>Backup</b><br><span>Save your progress</span></div></button></div>`);
   $('homeMenu').innerHTML=items.join('');
 }
@@ -664,15 +718,15 @@ function renderDeck(){
   $('deckSlots').innerHTML=[0,1,2,3,4].map(i=>{const k=SAVE.deck[i]; return k?gItem(def(k),{owner:'p',attr:`data-rm="${i}"`,cap:'Tap to remove'}):'<div class="empty"></div>'}).join('');
   $('deckNote').textContent=SAVE.deck.length<5?`Tap cards below to add them. ${5-SAVE.deck.length} more to go.`:'Deck ready. Tap a card above to swap it out.';
   const inDeck={}; SAVE.deck.forEach(k=>inDeck[k]=(inDeck[k]||0)+1);
-  const keys=Object.keys(SAVE.coll).sort((a,b)=>power(def(b))-power(def(a)));
-  $('deckPool').innerHTML=`<div class="grid">${keys.map(k=>{const left=SAVE.coll[k]-(inDeck[k]||0); return gItem(def(k),{attr:`data-add="${k}"`,count:SAVE.coll[k]>1?SAVE.coll[k]:0,cls:left<=0?'used':'',disabled:left<=0||SAVE.deck.length>=5,cap:`Lv ${def(k).lvl}`})}).join('')}</div>`;
+  const keys=Object.keys(SAVE.coll).sort((a,b)=>power(def(b))-power(def(a))), hasForged=SAVE.deck.some(isForged);
+  $('deckPool').innerHTML=`<div class="grid">${keys.map(k=>{const left=SAVE.coll[k]-(inDeck[k]||0), block=isForged(k)&&hasForged&&!inDeck[k]; return gItem(def(k),{attr:`data-add="${k}"`,count:SAVE.coll[k]>1?SAVE.coll[k]:0,cls:left<=0||block?'used':'',disabled:left<=0||block||SAVE.deck.length>=5,cap:block?'One forged card per deck':`Lv ${def(k).lvl}`})}).join('')}</div>`;
 }
 $('deck').addEventListener('click',e=>{
   const a=e.target.closest('[data-add]'), r=e.target.closest('[data-rm]');
-  if(a&&SAVE.deck.length<5){SAVE.deck.push(a.dataset.add); SFX.tap(); renderDeck();}
+  if(a&&SAVE.deck.length<5&&!(isForged(a.dataset.add)&&SAVE.deck.some(isForged))){SAVE.deck.push(a.dataset.add); SFX.tap(); renderDeck();}
   if(r){SAVE.deck.splice(+r.dataset.rm,1); SFX.tap(); renderDeck();}
 });
-$('autoDeck').onclick=()=>{const all=[]; Object.entries(SAVE.coll).forEach(([k,n])=>{for(let i=0;i<n;i++) all.push(k)}); SAVE.deck=all.sort((a,b)=>power(def(b))-power(def(a))).slice(0,5); renderDeck();};
+$('autoDeck').onclick=()=>{const all=[]; Object.entries(SAVE.coll).forEach(([k,n])=>{for(let i=0;i<n;i++) all.push(k)}); SAVE.deck=limitForged(all.sort((a,b)=>power(def(b))-power(def(a)))); renderDeck();};
 
 /* ---------- collection ---------- */
 function renderColl(){
@@ -713,7 +767,7 @@ function openPack(id){
   if(p.guarantee&&!lv.some(l=>l>=p.guarantee)) lv[2]=p.guarantee;
   const got=lv.map(l=>pickOne(BASE_KEYS.filter(k=>DEFS[k].lvl===l)));
   const isNew=got.map(k=>!SAVE.coll[k]&&!SAVE.seen[k]);
-  got.forEach(gain); persist(); SFX.chain();
+  got.forEach(gain); SAVE.stats.packs++; persist(); SFX.chain(); track('pack'); checkState();
   $('packTitle').textContent=p.name;
   $('packCards').innerHTML=got.map((k,i)=>gItem(def(k),{owner:'p',disabled:true,isNew:isNew[i],cap:`Lv ${def(k).lvl}`})).join('');
   $('packAgain').disabled=SAVE.coins<p.price;
@@ -727,18 +781,21 @@ $('packDone').onclick=()=>{$('packPanel').hidden=true};
 /* ---------- forge ---------- */
 $('fEl').innerHTML='<option value="">None</option>'+Object.entries(EL).map(([k,e])=>`<option value="${k}">${e.n}</option>`).join('');
 const lvlFor=s=>s<=15?1:s<=19?2:s<=23?3:s<=27?4:5;
+const FORGE_COST=[0,25,50,100,200,350];
+const forgeCap=()=>Math.min(30,14+2*Object.keys(SAVE.beaten).length);
 function readForge(){const v=['fT','fR','fB','fL'].map(id=>Math.max(1,Math.min(10,parseInt($(id).value)||1))); const sum=v.reduce((a,b)=>a+b,0); return {name:$('fName').value.trim(),el:$('fEl').value,v,sum,lvl:lvlFor(sum)};}
 function forgeCheck(f){
   if(!f.name) return 'Give your card a name.';
-  if(f.sum>30) return `Numbers total ${f.sum}. Bring them down to 30 or less.`;
+  const cap=forgeCap(); if(f.sum>cap) return `Numbers total ${f.sum}, but your limit is ${cap}. Beat more rivals to raise it.`;
   if(f.v.filter(x=>x===10).length>1) return 'Only one side can be an A.';
   if(SAVE.custom.length>=12) return 'You can keep 12 forged cards. Delete one to make room.';
+  if(SAVE.coins<FORGE_COST[f.lvl]) return `This card costs ${FORGE_COST[f.lvl]} coins and you have ${SAVE.coins}.`;
   return '';
 }
 function renderForge(msg){
   const f=readForge();
   $('fPreview').innerHTML=cardHTML({...f,name:f.name||'Unnamed',kind:'custom',seed:f.name.length*7+f.sum},'p');
-  $('fTotal').textContent=`Total ${f.sum} of 30 · Level ${f.lvl}`;
+  $('fTotal').innerHTML=`Total ${f.sum} of ${forgeCap()} · Level ${f.lvl} · Costs <span class="coins">${FORGE_COST[f.lvl]}</span> · You have <span class="coins">${SAVE.coins}</span>`;
   const err=forgeCheck(f); $('fErr').innerHTML=msg||esc(err); $('fMake').disabled=!!err;
   $('customList').innerHTML=SAVE.custom.length?SAVE.custom.map(c=>gItem(def(c.key),{owner:'p',attr:`data-del="${c.key}"`,cap:'Tap to delete'})).join(''):'<p class="note" style="grid-column:1/-1">Nothing forged yet.</p>';
 }
@@ -747,8 +804,9 @@ $('fMake').onclick=()=>{
   const f=readForge(); if(forgeCheck(f)) return;
   const key='c'+(SAVE.nextCustom++);
   const c={key,name:f.name,lvl:f.lvl,v:f.v,el:f.el,seed:SAVE.nextCustom*13};
-  SAVE.custom.push(c); DEFS[key]={...c,kind:'custom'}; gain(key); persist(); SFX.chain();
-  renderForge(`<span style="color:var(--good)">${esc(f.name)} added to your collection.</span>`);
+  SAVE.coins-=FORGE_COST[f.lvl]; SAVE.stats.forged=(SAVE.stats.forged||0)+1;
+  SAVE.custom.push(c); DEFS[key]={...c,kind:'custom'}; gain(key); persist(); SFX.chain(); checkState();
+  renderForge(`<span style="color:var(--good)">${esc(f.name)} added to your collection for ${FORGE_COST[f.lvl]} coins.</span>`);
 };
 let pendingDel=null;
 $('customList').addEventListener('click',e=>{
@@ -819,7 +877,7 @@ function oppHand(r,noSig){
 function onePerLevel(used,levels=[1,2,3,4,5],r=Math.random){return levels.map(l=>{const p=BASE_KEYS.filter(k=>DEFS[k].lvl===l&&!used.has(k)); const k=pickOne(p,r); used.add(k); return k;});}
 function genElems(r=Math.random){const e=Array(9).fill(''); const keys=Object.keys(EL); shuffle([...Array(9).keys()],r).slice(0,2+rnd(2,r)).forEach(i=>e[i]=pickOne(keys,r)); return e;}
 const deckHand=()=>[...SAVE.deck];
-function collHand(){const all=[]; Object.entries(SAVE.coll).forEach(([k,n])=>{for(let i=0;i<n;i++) all.push(k)}); return shuffle(all).slice(0,5);}
+function collHand(){const all=[]; Object.entries(SAVE.coll).forEach(([k,n])=>{for(let i=0;i<n;i++) all.push(k)}); return limitForged(shuffle(all));}
 
 /* ---------- match setup ---------- */
 function setupMatch(o){
@@ -878,9 +936,10 @@ function startTutorial(){
 }
 function begin(turn,msg){
   M.turn=turn; M.busy=false; M.leader=null;
-  setStatus(msg||(turn==='p'?'<b>You go first.</b> Pick a card.':`<b>${esc(M.rival?M.rival.name:'Your opponent')} goes first.</b>`));
+  const pvp=M.mode==='pvp';
+  setStatus(msg||(pvp?`<b>${esc(M.names[turn])} goes first.</b>`:turn==='p'?'<b>You go first.</b> Pick a card.':`<b>${esc(M.rival?M.rival.name:'Your opponent')} goes first.</b>`));
   say(M.mode==='friendly'?'friendly':'start',true);
-  render(); if(turn==='o') aiSoon();
+  nextTurn();
 }
 
 /* ---------- who goes first ---------- */
@@ -908,7 +967,7 @@ function rpsPanel(msg){
   $('firstPanel').hidden=false;
 }
 function coinPanel(){
-  $('firstBody').innerHTML=`<h2>Coin toss</h2><p style="text-align:center">Call it. Win the toss and you go first.</p><div class="coin" id="coin">?</div>
+  $('firstBody').innerHTML=`<h2>Coin toss</h2><p style="text-align:center">${M.mode==='pvp'?`${esc(M.names.p)}, call it. Win the toss and you go first.`:'Call it. Win the toss and you go first.'}</p><div class="coin" id="coin">?</div>
     <div class="row"><button class="primary" data-call="H">Heads</button><button class="primary" data-call="T">Tails</button></div>`;
   $('firstPanel').hidden=false;
 }
@@ -917,6 +976,7 @@ $('firstBody').addEventListener('click',e=>{
   if(t){
     ac(); SFX.tap(); const you=t.dataset.throw, ri=M.ri, me=rivalThrow(ri), st=SAVE.rps[ri]||(SAVE.rps[ri]={});
     const res=you===me?'tie':BEATS[me]===you?'won':'lost';
+    if(res==='lost'){SAVE.stats.rpsStreak++; if(SAVE.stats.rpsStreak>=3) unlockAch('rps3');} else if(res==='won') SAVE.stats.rpsStreak=0;
     st.you=you; st.me=me; st.res=res; st.cycle=(st.cycle||0)+(ri===2?1:0); st.alt=(st.alt||0)+(ri===4?1:0); persist();
     $('firstBody').innerHTML=`<h2>Who goes first?</h2><div class="duel"><div class="you"><span class="shake">${THROW[you].svg}</span>You</div><div class="them"><span class="shake">${THROW[me].svg}</span>${esc(M.rival.name)}</div></div><p style="text-align:center" id="rpsMsg">&nbsp;</p>`;
     setTimeout(()=>{
@@ -934,7 +994,7 @@ $('firstBody').addEventListener('click',e=>{
       coin.classList.remove('spin'); coin.textContent=side;
       const first=call===side?'p':'o';
       const msg=document.createElement('p'); msg.style.textAlign='center';
-      msg.innerHTML=`<b style="color:var(--ink)">${side==='H'?'Heads':'Tails'}.</b> ${first==='p'?'You go first.':esc(M.rival.name)+' goes first.'}`;
+      msg.innerHTML=`<b style="color:var(--ink)">${side==='H'?'Heads':'Tails'}.</b> ${M.mode==='pvp'?esc(M.names[first])+' goes first.':first==='p'?'You go first.':esc(M.rival.name)+' goes first.'}`;
       $('firstBody').appendChild(msg);
       setTimeout(()=>{$('firstPanel').hidden=true; begin(first);},1100);
     },1300);
@@ -959,21 +1019,30 @@ function score(){const s={p:M.hands.p.length,o:M.hands.o.length}; M.board.forEac
 function setStatus(h){$('status').innerHTML=h}
 function toast(txt){const t=$('toast'); t.textContent=txt; t.classList.remove('show'); void t.offsetWidth; t.classList.add('show');}
 const tutStep=()=>M.mode==='tutorial'&&M.turn==='p'?TUT.steps[M.tstep]:null;
+const isPvp=()=>M.mode==='pvp';
+const nameOf=o=>isPvp()?M.names[o]:o==='p'?'You':(M.persona!=null?RIVALS[M.persona].name:'Opponent');
+const canAct=o=>M.turn===o&&!M.over&&!M.busy&&(o==='p'||isPvp());
+const counted=()=>['rival','friendly','daily'].includes(M.mode);
 
+function handHTML(owner){
+  const act=canAct(owner), ts=act&&owner==='p'?tutStep():null;
+  const hidden=isPvp()?(!M.rules.open&&(M.busy||M.turn!==owner)):(owner==='o'&&!M.rules.open);
+  return M.hands[owner].map((x,i)=>{
+    if(!isPvp()&&owner==='o') return `<div class="slot">${cardHTML(x.c,'o',{hidden})}</div>`;
+    const lock=ts&&x.k!==ts.card, hint=ts&&x.k===ts.card&&M.sel!==i, sel=act&&M.sel===i;
+    return `<button class="slot ${sel?'sel':''} ${lock?'locked':''} ${hint?'hint':''}" data-i="${i}" data-owner="${owner}" ${hidden?'aria-label="Hidden card"':`aria-label="${esc(x.c.name)}, level ${x.c.lvl}, ${x.c.v.map(fmt).join(' ')}"`}>${cardHTML(x.c,owner,{hidden})}</button>`;
+  }).join('');
+}
 function render(){
   const sc=score(); $('sp').textContent=sc.p; $('so').textContent=sc.o;
-  $('oppHand').innerHTML=M.hands.o.map(x=>`<div class="slot">${cardHTML(x.c,'o',{hidden:!M.rules.open})}</div>`).join('');
-  const myTurn=M.turn==='p'&&!M.over&&!M.busy, ts=myTurn?tutStep():null;
-  $('myHand').classList.toggle('waiting',!myTurn);
-  $('myHand').innerHTML=M.hands.p.map((x,i)=>{
-    const lock=ts&&x.k!==ts.card, hint=ts&&x.k===ts.card&&M.sel!==i;
-    return `<button class="slot ${M.sel===i?'sel':''} ${lock?'locked':''} ${hint?'hint':''}" data-i="${i}" aria-label="${esc(x.c.name)}, level ${x.c.lvl}, ${x.c.v.map(fmt).join(' ')}">${cardHTML(x.c,'p')}</button>`;
-  }).join('');
+  $('oppHand').innerHTML=handHTML('o'); $('myHand').innerHTML=handHTML('p');
+  $('myHand').classList.toggle('waiting',!canAct('p')); $('oppHand').classList.toggle('waiting',!canAct('o'));
+  const active=canAct(M.turn)?M.turn:null, ts=active==='p'?tutStep():null;
   $('board').innerHTML=M.board.map((x,i)=>{
     const el=M.elems[i];
     if(x){const cls=(M.flips.includes(i)?' flip':'')+(M.placed===i?' placed':'');
-      return `<div class="cell" aria-label="${esc(x.inst.c.name)}, ${x.o==='p'?'yours':'opponent'}"><div class="wrap${cls}">${cardHTML(x.inst.c,x.o,{mod:x.m})}</div></div>`;}
-    let open=myTurn&&M.sel!==null; if(ts) open=open&&i===ts.cell;
+      return `<div class="cell" aria-label="${esc(x.inst.c.name)}, ${x.o==='p'?'blue':'red'}"><div class="wrap${cls}">${cardHTML(x.inst.c,x.o,{mod:x.m})}</div></div>`;}
+    let open=!!active&&M.sel!==null; if(ts) open=open&&i===ts.cell;
     const hint=ts&&M.sel!==null&&i===ts.cell;
     return `<button class="cell ${open?'open':''} ${hint?'hint':''}" data-cell="${i}" aria-label="Empty square ${i+1}${el?', '+EL[el].n:''}" ${open?'':'tabindex="-1"'}>${el?elSvg(el,'elbig'):''}</button>`;
   }).join('');
@@ -982,11 +1051,12 @@ function render(){
 
 function play(owner,hi,cell){
   const inst=M.hands[owner].splice(hi,1)[0];
-  const before=score();
   const r=resolve(M.board,inst,cell,owner);
   M.board=r.b; M.flips=r.flips; M.placed=cell; M.sel=null;
   SFX.place(); if(r.flips.length) setTimeout(()=>SFX.flip(),120);
   if(r.events.size){toast([...r.events].map(e=>e+'!').join(' ')); setTimeout(()=>SFX.chain(),150);}
+  if(M.mode==='puzzle'){ render(); setTimeout(()=>finishPuzzle(r.flips.length),900); return; }
+  if(owner==='p'&&counted()) moveGoals(r);
   // banter
   const after=score(), lead=after.p>after.o?'p':after.o>after.p?'o':null;
   if(r.events.size) say(owner==='o'?'bigThem':'bigYou',true);
@@ -995,7 +1065,7 @@ function play(owner,hi,cell){
   else if(M.quiet>0) M.quiet--;
   if(lead) M.leader=lead;
   M.turn=other(owner);
-  const who=owner==='p'?'You':(M.rival||M.persona!=null?esc(RIVALS[M.persona].name):'Opponent');
+  const who=esc(nameOf(owner));
   const fl=r.flips.length?` and took ${r.flips.length} card${r.flips.length>1?'s':''}`:'';
   if(M.board.every(Boolean)){
     M.over=true; render();
@@ -1007,9 +1077,14 @@ function play(owner,hi,cell){
   if(M.mode==='tutorial'){
     if(owner==='p'){M.tstep++; setStatus(`${who} played <b>${esc(inst.c.name)}</b>${fl}. Pip's turn.`);}
     else { const p=TUT.pip[M.pstep-1]; setStatus(`${p.after} ${TUT.steps[M.tstep].text}`); }
-  } else setStatus(`${who} played <b>${esc(inst.c.name)}</b>${fl}. ${M.turn==='p'?'Your turn.':'Thinking…'}`);
+  } else if(isPvp()) setStatus(`${who} played <b>${esc(inst.c.name)}</b>${fl}. <b>${esc(nameOf(M.turn))}</b>'s turn.`);
+  else setStatus(`${who} played <b>${esc(inst.c.name)}</b>${fl}. ${M.turn==='p'?'Your turn.':'Thinking…'}`);
+  nextTurn();
+}
+function nextTurn(){
+  if(isPvp()&&!M.rules.open){ handoff(); return; }
   render();
-  if(M.turn==='o') aiSoon();
+  if(M.turn==='o'&&!isPvp()) aiSoon();
 }
 function overtime(){
   for(const s of ['p','o']) M.hands[s]=[...M.board.filter(x=>x.o===s).map(x=>x.inst),...M.hands[s]];
@@ -1018,8 +1093,8 @@ function overtime(){
   const t=Math.random()<.5?'p':'o';
   toast('Overtime');
   M.turn=t; M.leader=null;
-  setStatus(`<b>Overtime, round ${M.round}.</b> You play with the cards you owned. ${t==='p'?'You go first.':'They go first.'}`);
-  render(); if(t==='o') aiSoon();
+  setStatus(isPvp()?`<b>Overtime, round ${M.round}.</b> Each player keeps the cards they owned. ${esc(nameOf(t))} goes first.`:`<b>Overtime, round ${M.round}.</b> You play with the cards you owned. ${t==='p'?'You go first.':'They go first.'}`);
+  nextTurn();
 }
 
 /* ---------- AI ---------- */
@@ -1033,7 +1108,7 @@ function aiMove(){
   let skill=M.rules.skill??HOUSE_SKILL[M.rules.diff]??.45;
   const classic=skill==='classic'; if(classic) skill=.5;
   const blunder=classic?0:Math.max(0,.5-skill*.55);
-  if(Math.random()<blunder) return pickOne(moves.length?moves:(M.hands.o.flatMap((c,hi)=>em.map(e=>({hi,e})))));
+  if(Math.random()<blunder) return pickOne(M.hands.o.flatMap((c,hi)=>em.map(e=>({hi,e}))));
   const noise=classic?0:(1-skill)*1.6, guard=classic?.35:.35*skill, look=classic?0:skill>=.7?.9*(skill-.7)/.3:0;
   M.hands.o.forEach((c,hi)=>em.forEach(e=>{
     const r=resolve(M.board,c,e,'o');
@@ -1047,23 +1122,27 @@ function aiMove(){
 }
 function aiSoon(){M.busy=true; render(); setTimeout(()=>{M.busy=false; if(M.over||$('game').hidden) return; const m=aiMove(); play('o',m.hi,m.e);},M.mode==='tutorial'?1100:750);}
 
-$('myHand').addEventListener('click',e=>{
-  const s=e.target.closest('.slot'); if(!s||M.turn!=='p'||M.over||M.busy) return;
-  const i=+s.dataset.i, ts=tutStep(); if(ts&&M.hands.p[i].k!==ts.card) return;
+function pickCard(e){
+  const s=e.target.closest('.slot[data-i]'); if(!s) return;
+  const owner=s.dataset.owner; if(!canAct(owner)) return;
+  const i=+s.dataset.i, ts=owner==='p'?tutStep():null; if(ts&&M.hands.p[i].k!==ts.card) return;
   M.sel=M.sel===i?null:i; SFX.tap();
-  if(M.sel!==null&&!ts){const c=M.hands.p[M.sel].c; setStatus(`<b>${esc(c.name)}</b> · level ${c.lvl}${c.el?' · '+EL[c.el].n:''}. Now pick a square.`);}
+  if(M.sel!==null&&!ts&&M.mode!=='puzzle'){const c=M.hands[owner][M.sel].c; setStatus(`<b>${esc(c.name)}</b> · level ${c.lvl}${c.el?' · '+EL[c.el].n:''}. Now pick a square.`);}
   render();
-});
+}
+$('myHand').addEventListener('click',pickCard);
+$('oppHand').addEventListener('click',pickCard);
 $('board').addEventListener('click',e=>{
-  const c=e.target.closest('[data-cell]'); if(!c||M.sel===null||M.turn!=='p'||M.over||M.busy) return;
+  const c=e.target.closest('[data-cell]'); if(!c||M.sel===null||!canAct(M.turn)) return;
   const ts=tutStep(); if(ts&&+c.dataset.cell!==ts.cell) return;
-  play('p',M.sel,+c.dataset.cell);
+  play(M.turn,M.sel,+c.dataset.cell);
 });
 let leaveArmed=false;
 $('leaveBtn').onclick=()=>{
-  if(M.over&&M.mode!=='rival'){show('home');return;}
+  const back=M.mode==='rival'?'rivals':M.mode==='puzzle'?'puzzles':'home';
+  if(M.over&&M.mode!=='rival'||M.mode==='puzzle'){M.over=true; hideBubble(); show(back);return;}
   if(!leaveArmed){leaveArmed=true; $('leaveBtn').textContent='Sure?'; setTimeout(()=>{leaveArmed=false; $('leaveBtn').textContent='Leave'},2500); return;}
-  leaveArmed=false; $('leaveBtn').textContent='Leave'; M.over=true; $('firstPanel').hidden=true; hideBubble(); show(M.mode==='rival'?'rivals':'home');
+  leaveArmed=false; $('leaveBtn').textContent='Leave'; M.over=true; $('firstPanel').hidden=true; $('passPanel').hidden=true; hideBubble(); show(back);
 };
 
 /* ---------- end of game, coins & spoils ---------- */
@@ -1071,6 +1150,7 @@ let picks=null;
 function finish(){
   const sc=score(); let title, W=null;
   if(sc.p>sc.o){title='Victory';W='p'} else if(sc.p<sc.o){title='Defeat';W='o'} else title='Draw';
+  if(isPvp()){ finishPvp(sc,W); return; }
   if(M.mode!=='tutorial'){ if(W==='p') SAVE.record.w++; else if(W==='o') SAVE.record.l++; else SAVE.record.d++; }
   setTimeout(()=>W==='o'?SFX.lose():W==='p'?SFX.win():SFX.tap(),100);
   say(W==='o'?'win':W==='p'?'lose':'overtime',true);
@@ -1079,21 +1159,24 @@ function finish(){
   if(M.mode==='tutorial'){
     title='You won!';
     body+=`<p class="note">That's the basics. Whoever owns more cards when the board fills wins, and cards still in your hand count too. Rivals add extra rules as you go, and each one plays for cards.</p>`;
-    if(!SAVE.tutorialDone){coins=20; SAVE.tutorialDone=true;}
+    if(!SAVE.tutorialDone){coins=20; SAVE.tutorialDone=true; body+=`<p class="gainhead">Puzzles are now unlocked.</p>`;}
   }
   if(M.mode==='friendly'&&W==='p') coins=2;
   if(M.mode==='daily'){
     const k=todayKey();
-    if(W==='p'&&!(SAVE.daily.date===k&&SAVE.daily.won)){coins=25; SAVE.daily={date:k,won:true};}
+    if(W==='p'&&!(SAVE.daily.date===k&&SAVE.daily.won)){coins=25; SAVE.daily={date:k,won:true}; SAVE.stats.dailyWins++;}
     else if(W==='p') body+=`<p class="note">You've already claimed today's reward.</p>`;
     else body+=`<p class="note">Same hands, same opponent. Try again whenever you like.</p>`;
   }
   const r=M.rival;
   if(M.mode==='rival'){
     if(W==='p'){
+      const firstEver=!Object.keys(SAVE.beaten).length;
       coins=SAVE.beaten[M.ri]?r.pay:r.pay*2;
       if(!SAVE.beaten[M.ri]&&M.ri<RIVALS.length-1) body+=`<p class="gainhead">${esc(RIVALS[M.ri+1].name)} will now play you.</p>`;
+      if(!SAVE.beaten[M.ri]) body+=`<p class="note">Your Forge limit rose to ${Math.min(30,forgeCap()+2)} points.</p>`;
       SAVE.beaten[M.ri]=true;
+      if(firstEver) body+=`<p class="gainhead">Daily bounties are now unlocked.</p>`;
       if(r.legend&&!SAVE.coll[r.legend]){gain(r.legend); body+=`<p class="gainhead">Legend card unlocked!</p><div class="loot">${gItem(def(r.legend),{owner:'p',disabled:true,cap:esc(def(r.legend).lore)})}</div>`;}
     }
     const takeBest=n=>{const c=M.orig.p.filter(x=>!isProtected(x.k)).sort((a,b)=>power(b.c)-power(a.c)); for(const x of c){if(lost.length>=n) break; if(lose(x.k)) lost.push(x.k);}};
@@ -1113,6 +1196,7 @@ function finish(){
   if(M.mode==='friendly') body+=`<p class="note">Just a friendly. No cards changed hands.</p>`;
   if(coins){addCoins(coins); body=`<p class="gainhead"><span class="coins">+${coins}</span> coins</p>`+body;}
   if(M.mode!=='tutorial') body+=`<p class="note">Record: ${SAVE.record.w} won · ${SAVE.record.l} lost · ${SAVE.record.d} drawn</p>`;
+  if(counted()) endGoals(sc,W,lost);
   persist();
   $('endTitle').textContent=title; $('endBody').innerHTML=body;
   setStatus(`<b>${title}.</b>`);
@@ -1125,6 +1209,8 @@ function endButtons(){
   else if(M.mode==='tutorial') h=`<button class="primary" id="toDeck">Build your deck</button><button class="pill" id="toHome">Menu</button>`;
   else if(M.mode==='rival') h=`<button class="primary" id="againBtn">Rematch</button><button class="pill" id="toRivals">Rivals</button>`;
   else if(M.mode==='daily') h=`<button class="primary" id="againBtn">Play again</button><button class="pill" id="toHome">Menu</button>`;
+  else if(M.mode==='pvp') h=`<button class="primary" id="againBtn">Rematch</button><button class="pill" id="toHome">Menu</button>`;
+  else if(M.mode==='puzzle') h=M.solved?`${PUZZLES[M.puzzle+1]?'<button class="primary" id="nextPuz">Next puzzle</button>':''}<button class="pill" id="toPuzzles">All puzzles</button>`:`<button class="primary" id="againBtn">Try again</button><button class="pill" id="toPuzzles">All puzzles</button>`;
   else h=`<button class="primary" id="againBtn">Another friendly</button><button class="pill" id="toHome">Menu</button>`;
   $('endBtns').innerHTML=h;
 }
@@ -1133,7 +1219,7 @@ $('endPanel').addEventListener('click',e=>{
   if(p&&picks){const i=+p.dataset.pick; if(picks.sel.includes(i)) picks.sel=picks.sel.filter(x=>x!==i); else if(picks.sel.length<picks.n) picks.sel.push(i); SFX.tap(); renderPicks(); endButtons(); return;}
   const id=e.target.id; if(!id) return;
   if(id==='takeBtn'){
-    const got=picks.sel.map(i=>picks.list[i].k); got.forEach(gain); persist(); picks=null; SFX.coin();
+    const got=picks.sel.map(i=>picks.list[i].k); got.forEach(gain); persist(); picks=null; SFX.coin(); checkState();
     $('pickHead').textContent='You took';
     $('pickLoot').outerHTML=`<div class="loot">${got.map(k=>gItem(def(k),{owner:'p',disabled:true})).join('')}</div>`;
     endButtons(); return;
@@ -1141,14 +1227,199 @@ $('endPanel').addEventListener('click',e=>{
   $('endPanel').hidden=true; hideBubble();
   if(id==='againBtn'){
     if(M.mode==='rival'){ if(!deckReady()){show('deck');return;} startRival(M.ri); }
-    else if(M.mode==='daily') startDaily(); else startFriendly();
+    else if(M.mode==='daily') startDaily();
+    else if(M.mode==='pvp') dealPvp();
+    else if(M.mode==='puzzle') startPuzzle(M.puzzle);
+    else startFriendly();
   }
+  if(id==='nextPuz') startPuzzle(M.puzzle+1);
+  if(id==='toPuzzles') show('puzzles');
   if(id==='toRivals') show('rivals');
   if(id==='toHome') show('home');
   if(id==='toDeck') show('deck');
 });
 
+/* ---------- pass and play ---------- */
+function openPvp(){
+  const n=SAVE.pvpNames||['Player 1','Player 2'];
+  $('pvpP1').value=n[0]; $('pvpP2').value=n[1]; syncHouse(); $('pvpOpen').checked=!!SAVE.house.open;
+  $('pvpPanel').hidden=false;
+}
+$('pvpStart').onclick=()=>{
+  const n1=$('pvpP1').value.trim()||'Player 1', n2=$('pvpP2').value.trim()||'Player 2';
+  SAVE.pvpNames=[n1.slice(0,16),n2.slice(0,16)]; SAVE.house.open=$('pvpOpen').checked; persist();
+  $('pvpPanel').hidden=true; ac(); dealPvp();
+};
+$('pvpCancel').onclick=()=>{$('pvpPanel').hidden=true};
+function dealPvp(){
+  const [n1,n2]=SAVE.pvpNames||['Player 1','Player 2'];
+  const used=new Set();
+  setupMatch({mode:'pvp',ri:null,persona:null,rules:{...SAVE.house},ph:onePerLevel(used),oh:onePerLevel(used),title:`${n1} vs ${n2}`});
+  M.names={p:n1,o:n2};
+  coinPanel();
+}
+function handoff(){
+  M.busy=true; render();
+  $('passBody').innerHTML=`<h2>Pass the phone</h2><p style="text-align:center">Hand over to <b style="color:var(--ink)">${esc(nameOf(M.turn))}</b>. No peeking at the other hand!</p><div class="row"><button class="primary" id="passReady">I'm ${esc(nameOf(M.turn))}, let's go</button></div>`;
+  $('passPanel').hidden=false;
+}
+$('passPanel').addEventListener('click',e=>{ if(e.target.id!=='passReady') return; $('passPanel').hidden=true; M.busy=false; SFX.tap(); render(); });
+function finishPvp(sc,W){
+  setTimeout(()=>W?SFX.win():SFX.tap(),100);
+  $('endTitle').textContent=W?`${nameOf(W)} wins!`:'Draw';
+  $('endScore').textContent=`${sc.p} – ${sc.o}`;
+  $('endBody').innerHTML=`<p class="note">${esc(M.names.p)} played blue, ${esc(M.names.o)} played red.</p>`;
+  setStatus(`<b>${W?esc(nameOf(W))+' wins!':'A draw.'}</b>`);
+  unlockAch('pvp'); persist(); picks=null; endButtons(); $('endPanel').hidden=false;
+}
+
+/* ---------- puzzles ---------- */
+const PUZZLES=[{"id":1,"name":"First Light","rules":{},"goal":2,"board":[["b6","p"],["b12","o"],0,0,["b14","o"],["b8","o"],0,0,0],"elems":["","","","","","","","",""],"hand":["b19","b7","b0"]},{"id":2,"name":"Crossfire","rules":{},"goal":2,"board":[0,["b16","p"],0,["b20","o"],0,0,["b17","p"],["b11","o"],["b15","o"]],"elems":["","","","","","","","",""],"hand":["b30","b31","b10"]},{"id":3,"name":"Pincer","rules":{},"goal":3,"board":[["b18","o"],0,["b24","o"],["b8","o"],["b9","o"],["b30","p"],["b31","o"],["b23","o"],0],"elems":["","","","","","","","",""],"hand":["b10","b25","b27"]},{"id":4,"name":"Mirror Image","rules":{"same":1},"goal":2,"board":[["b27","o"],["b26","o"],0,0,["b19","o"],["b14","o"],["b28","p"],0,["b30","o"]],"elems":["","","","","","","","",""],"hand":["b13","b23","b0"]},{"id":5,"name":"Reflections","rules":{"same":1},"goal":3,"board":[["b16","o"],["b15","p"],["b19","o"],0,["b24","o"],0,["b25","o"],["b29","o"],["b14","p"]],"elems":["","","","","","","","",""],"hand":["b26","b30","b23"]},{"id":6,"name":"Sum of Parts","rules":{"plus":1},"goal":4,"board":[0,["b16","o"],["b30","p"],["b9","o"],0,["b11","o"],["b14","o"],["b0","o"],0],"elems":["","","","","","","","",""],"hand":["b7","b26","b27"]},{"id":7,"name":"Common Ground","rules":{"plus":1},"goal":3,"board":[["b11","o"],["b36","o"],["b37","o"],0,["b19","o"],0,0,0,["b22","o"]],"elems":["","","","","","","","",""],"hand":["b33","b20","b8"]},{"id":8,"name":"Chain Reaction","rules":{"same":1,"combo":1},"goal":4,"board":[["b25","o"],["b37","o"],["b20","o"],0,0,["b21","p"],["b18","o"],["b8","o"],["b30","o"]],"elems":["","","","","","","","",""],"hand":["b24","b10","b17"]},{"id":9,"name":"Domino","rules":{"plus":1,"combo":1},"goal":5,"board":[["b11","o"],0,0,["b23","o"],["b32","o"],0,["b31","o"],["b12","o"],["b17","o"]],"elems":["","","","","","","","",""],"hand":["b16","b25","b8"]},{"id":10,"name":"Edge of the World","rules":{"same":1,"wall":1},"goal":2,"board":[["b33","o"],["b30","p"],0,0,["b32","p"],["b27","o"],0,["b28","o"],0],"elems":["","","","","","","","",""],"hand":["b34","b37","b35"]},{"id":11,"name":"Aether's Gift","rules":{"elemental":1},"goal":3,"board":[0,["b24","p"],["b25","o"],["b10","o"],0,["b8","o"],["b18","o"],["b19","o"],0],"elems":["e","","","","","w","e","",""],"hand":["b20","b11","b13"]},{"id":12,"name":"Grand Gambit","rules":{"same":1,"plus":1,"combo":1,"elemental":1},"goal":6,"board":[["b21","o"],["b11","o"],["b36","o"],["b16","o"],0,["b24","o"],0,["b28","o"],0],"elems":["w","","t","f","","","","",""],"hand":["b29","b32","b20"]}];
+function renderPuzzles(){
+  const solved=Object.keys(SAVE.puzzles).length;
+  $('puzNote').textContent=`${solved} of ${PUZZLES.length} solved. Each puzzle gives you one move. Find the placement that flips enough cards. First solve pays 10 coins.`;
+  $('puzList').innerHTML=PUZZLES.map((p,i)=>{
+    const done=SAVE.puzzles[p.id];
+    const chips=Object.keys(p.rules).map(k=>`<span class="chip">${RULE_NAMES[k]}</span>`).join('')||'<span class="chip">Basic</span>';
+    return `<button class="ptile ${done?'done':''}" data-puz="${i}"><span class="pnum">${p.id}</span><b>${esc(p.name)}</b><span>Flip ${p.goal} cards in one move</span><div class="chips">${chips}</div><span class="pstate">${done?'Solved':'10 coins'}</span></button>`;
+  }).join('');
+}
+$('puzList').addEventListener('click',e=>{const b=e.target.closest('[data-puz]'); if(b){ac(); startPuzzle(+b.dataset.puz);}});
+function startPuzzle(i){
+  const p=PUZZLES[i]; if(!p) return;
+  setupMatch({mode:'puzzle',ri:null,persona:null,rules:{open:1,...p.rules},ph:p.hand,oh:[],elems:[...p.elems],keepOrder:true,title:`Puzzle ${p.id} · ${p.name}`});
+  M.puzzle=i; M.solved=false;
+  M.board=p.board.map((x,c)=>{ if(!x) return null; const inst=mk(x[0],x[1]); return {inst,o:x[1],m:modFor(inst,c)}; });
+  const rules=Object.keys(p.rules).map(k=>RULE_NAMES[k]).join(', ');
+  begin('p',`<b>Goal: flip ${p.goal} cards in one move.</b> ${rules?'Rules in play: '+rules+'.':'Basic rules only.'} Blue cards are already yours.`);
+}
+function finishPuzzle(n){
+  const p=PUZZLES[M.puzzle]; M.over=true; picks=null;
+  const ok=n>=p.goal; M.solved=ok;
+  let body='';
+  if(ok){
+    SFX.win();
+    if(!SAVE.puzzles[p.id]){SAVE.puzzles[p.id]=1; addCoins(10); body+=`<p class="gainhead"><span class="coins">+10</span> coins</p>`; track('puzzle'); checkState();}
+    body+=`<p class="note">You flipped ${n} card${n!==1?'s':''}. That's the one.</p>`;
+  } else { SFX.lose(); body+=`<p class="note">That flipped ${n} card${n!==1?'s':''}. You need ${p.goal}. Look for a square that touches more red cards, and check which rules are in play.</p>`; }
+  persist();
+  $('endTitle').textContent=ok?'Solved!':'Not quite';
+  $('endScore').textContent=`${n} / ${p.goal}`;
+  $('endBody').innerHTML=body; setStatus(ok?'<b>Solved!</b>':'<b>Not quite.</b>');
+  endButtons(); $('endPanel').hidden=false;
+}
+
+/* ---------- notices ---------- */
+const NQ=[]; let nBusy=false;
+function notice(html){ NQ.push(html); if(!nBusy) nextNotice(); }
+function nextNotice(){
+  const h=NQ.shift(); if(!h){nBusy=false; return;} nBusy=true;
+  const n=$('notice'); n.innerHTML=h; n.classList.add('show');
+  setTimeout(()=>{n.classList.remove('show'); setTimeout(nextNotice,400);},2600);
+}
+
+/* ---------- bounties ---------- */
+const BOUNTY_POOL=[
+ {id:'win_rival',text:'Win a rival match',n:1},{id:'win_any',text:'Win 2 games of any kind',n:2},{id:'flip3',text:'Flip 3 or more cards in one move',n:1},
+ {id:'mirror',text:'Trigger Mirror or Edge',n:1},{id:'sum',text:'Trigger Sum',n:1},{id:'chain',text:'Trigger a Chain',n:1},
+ {id:'friendly',text:'Win a friendly game',n:1},{id:'puzzle',text:'Solve a new puzzle',n:1},{id:'pack',text:'Open a card pack',n:1},
+ {id:'corners',text:'Own all four corners when a game ends',n:1},{id:'big',text:'Win with 7 or more cards',n:1},{id:'place10',text:'Play 10 cards in rival, friendly or daily games',n:10}
+];
+const BOUNTY_PAY=15, BOUNTY_BONUS=20;
+const bountyOpen=()=>Object.keys(SAVE.beaten).length>0;
+function ensureBounty(){
+  const k=todayKey(); if(SAVE.bounty.date===k) return;
+  const R=seeded('bounty-'+k+'-'+SAVE.salt), pool=[...BOUNTY_POOL];
+  // puzzles only once there are unsolved ones left
+  const avail=pool.filter(b=>b.id!=='puzzle'||Object.keys(SAVE.puzzles).length<PUZZLES.length);
+  SAVE.bounty={date:k,ids:shuffle(avail,R).slice(0,3).map(b=>b.id),prog:{},done:{},bonus:false}; persist();
+}
+function track(id,amt=1){
+  if(!bountyOpen()) return; ensureBounty();
+  const B=SAVE.bounty; if(!B.ids.includes(id)||B.done[id]) return;
+  const b=BOUNTY_POOL.find(x=>x.id===id); B.prog[id]=(B.prog[id]||0)+amt;
+  if(B.prog[id]>=b.n){ B.done[id]=true; addCoins(BOUNTY_PAY); notice(`<b>Bounty complete</b> ${esc(b.text)} <span class="coins">+${BOUNTY_PAY}</span>`);
+    if(!B.bonus&&B.ids.every(i=>B.done[i])){ B.bonus=true; addCoins(BOUNTY_BONUS); notice(`<b>All bounties done!</b> Bonus <span class="coins">+${BOUNTY_BONUS}</span>`); } }
+  persist();
+}
+
+/* ---------- achievements ---------- */
+const ACH=[
+ {id:'first_win',name:'First Blood',text:'Win your first rival match.',coins:10},
+ {id:'flip4',name:'Clean Sweep',text:'Flip 4 or more cards in one move.',coins:20},
+ {id:'trio',name:'Full Repertoire',text:'Trigger Mirror, Sum and Chain at least once each.',coins:25},
+ {id:'nine',name:'Total Eclipse',text:'Win a game owning 9 or more cards.',coins:30},
+ {id:'lowroll',name:'Humble Beginnings',text:'Beat Captain Ves or a tougher rival using only level 1 and 2 cards.',coins:30},
+ {id:'overtime',name:'Extra Time',text:'Win a game in Overtime.',coins:20},
+ {id:'claim',name:'Untouchable',text:'Beat the Hexbound Stranger without losing a card.',coins:40},
+ {id:'legend',name:'Living Legend',text:'Unlock a legend card.',coins:25},
+ {id:'all_rivals',name:'Champion of the Inn',text:'Beat all eight rivals.',coins:100},
+ {id:'coll25',name:'Collector',text:'Own 25 different regular cards.',coins:30},
+ {id:'coll_all',name:'Complete Set',text:'Own every one of the 38 regular cards.',coins:100},
+ {id:'packs10',name:'Pack Rat',text:'Open 10 card packs.',coins:25},
+ {id:'forge',name:'Smith',text:'Forge your first card.',coins:10},
+ {id:'daily7',name:'Regular',text:'Win the daily challenge on 7 different days.',coins:50},
+ {id:'puz5',name:'Thinker',text:'Solve 5 puzzles.',coins:20},
+ {id:'puz_all',name:'Mastermind',text:'Solve every puzzle.',coins:50},
+ {id:'rps3',name:'Mind Reader',text:'Win rock paper scissors 3 times in a row.',coins:15},
+ {id:'rich',name:'Full Purse',text:'Hold 500 coins at once.',coins:20},
+ {id:'pvp',name:'Good Company',text:'Finish a pass and play game.',coins:10}
+];
+function unlockAch(id){
+  if(SAVE.ach[id]) return; const a=ACH.find(x=>x.id===id); if(!a) return;
+  SAVE.ach[id]=Date.now(); notice(`<b>Achievement: ${esc(a.name)}</b> <span class="coins">+${a.coins}</span>`); addCoins(a.coins); persist();
+}
+function checkState(){
+  const owned=BASE_KEYS.filter(k=>SAVE.coll[k]).length, st=SAVE.stats;
+  if(Object.keys(SAVE.beaten).length) unlockAch('first_win');
+  if(RIVALS.every((_,i)=>SAVE.beaten[i])) unlockAch('all_rivals');
+  if(SAVE.coll.L0||SAVE.coll.L1) unlockAch('legend');
+  if(owned>=25) unlockAch('coll25'); if(owned>=BASE_KEYS.length) unlockAch('coll_all');
+  if(st.packs>=10) unlockAch('packs10'); if(SAVE.custom.length||st.forged) unlockAch('forge');
+  if(st.dailyWins>=7) unlockAch('daily7');
+  const pz=Object.keys(SAVE.puzzles).length; if(pz>=5) unlockAch('puz5'); if(pz>=PUZZLES.length) unlockAch('puz_all');
+  if(st.ev.Mirror&&st.ev.Sum&&st.ev.Chain) unlockAch('trio');
+  if(SAVE.coins>=500) unlockAch('rich');
+}
+function moveGoals(r){
+  track('place10');
+  if(r.flips.length>=3) track('flip3');
+  if(r.flips.length>=4) unlockAch('flip4');
+  if(r.events.has('Mirror')||r.events.has('Edge')){track('mirror'); SAVE.stats.ev.Mirror=1;}
+  if(r.events.has('Sum')){track('sum'); SAVE.stats.ev.Sum=1;}
+  if(r.events.has('Chain')){track('chain'); SAVE.stats.ev.Chain=1;}
+  checkState(); persist();
+}
+function endGoals(sc,W,lost){
+  if(W!=='p') return;
+  track('win_any');
+  if(M.mode==='rival') track('win_rival');
+  if(M.mode==='friendly') track('friendly');
+  if(sc.p>=7) track('big');
+  if(sc.p>=9) unlockAch('nine');
+  if([0,2,6,8].every(i=>M.board[i]&&M.board[i].o==='p')) track('corners');
+  if(M.round>1) unlockAch('overtime');
+  if(M.mode==='rival'&&M.ri>=3&&M.orig.p.every(x=>x.c.lvl<=2)) unlockAch('lowroll');
+  if(M.mode==='rival'&&M.ri===6&&!lost.length) unlockAch('claim');
+  checkState();
+}
+function renderGoals(){
+  let h='<div class="lvhead">Daily bounties</div>';
+  if(!bountyOpen()) h+=`<p class="note" style="text-align:left">Win your first rival match to unlock daily bounties: three small tasks a day, ${BOUNTY_PAY} coins each, plus a ${BOUNTY_BONUS} coin bonus for finishing all three.</p>`;
+  else {
+    ensureBounty(); const B=SAVE.bounty;
+    h+=B.ids.map(id=>{const b=BOUNTY_POOL.find(x=>x.id===id), p=Math.min(b.n,B.prog[id]||0), done=B.done[id];
+      return `<div class="goal ${done?'done':''}"><div><h3>${esc(b.text)}</h3><p>${done?'Complete':`${p} of ${b.n}`}</p></div><span class="coins">${BOUNTY_PAY}</span><div class="bar2"><i style="width:${p/b.n*100}%"></i></div></div>`;}).join('');
+    h+=`<p class="note">${B.bonus?'All done for today. ':''}Finish all three for a ${BOUNTY_BONUS} coin bonus. New bounties at midnight.</p>`;
+  }
+  const got=ACH.filter(a=>SAVE.ach[a.id]).length;
+  h+=`<div class="lvhead">Achievements · ${got} of ${ACH.length}</div>`;
+  h+=ACH.map(a=>`<div class="goal ${SAVE.ach[a.id]?'done':''}"><div><h3>${SAVE.ach[a.id]?'✓ ':''}${esc(a.name)}</h3><p>${esc(a.text)}</p></div><span class="coins">${a.coins}</span></div>`).join('');
+  $('goalList').innerHTML=h; $('goalCoins').textContent=SAVE.coins;
+}
+
 show('home');
+checkState();
 </script>
 <script>
 if('serviceWorker' in navigator){ addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{})); }
