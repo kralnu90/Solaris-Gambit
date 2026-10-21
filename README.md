@@ -2,7 +2,7 @@
 
 *A tavern card game under the stars. Nine squares, ten cards, one winner.*
 
-## [▶ Play Solaris Gambit](https://YOUR-USERNAME.github.io/solaris-gambit/)
+## [▶ Play Solaris Gambit](https://kralnu90.github.io/Solaris-Gambit/)
 
 Free to play in your phone's browser. No account, no ads.
 
