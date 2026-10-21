@@ -22,11 +22,16 @@ New to it? Start with **Learn to play** on the main menu for a quick guided game
 ## What's inside
 
 - **Eight rivals** to beat in turn, from Pip the stablehand to the mysterious Mellana. Each has their own rules, personality and something to say about your play, and they get sharper as you climb.
+- **Chapters.** The first, *Fire & Ice*, brings 15 new cards, two feuding rivals, its own card pack and a legend for collecting the set.
+- **The Gauntlet.** Draft a deck from random picks and win as many matches in a row as you can.
+- **Weekly tournaments.** Four rivals back to back, with new rules every week.
+- **Champion rematches.** Beat everyone, and they come back at full strength.
+- **Shiny cards.** Rare shimmering versions to find in packs.
 - **Win their cards.** Rivals play for keeps, so every match can grow or shrink your collection.
 - **Puzzles.** Twelve hand-picked boards, one move each. Find the placement that flips enough cards.
 - **Pass and play.** Two players on one phone, with hidden hands if you want them.
 - **Daily bounties.** Three small tasks a day for bonus coins.
-- **Achievements.** Nineteen goals, each with a coin reward.
+- **Achievements.** Twenty-four goals, each with a coin reward.
 - **A daily challenge** with the same hands for everyone, every day.
 - **Card packs** to open with the coins you earn.
 - **The Card Forge** for designing your own signature card.
@@ -35,6 +40,15 @@ New to it? Start with **Learn to play** on the main menu for a quick guided game
 - Extra rules as you progress: Mirror, Sum, Chain, Edge, Aether and Overtime.
 
 ## What's new
+
+### Update 2: Fire & Ice, the Gauntlet and tournaments
+- **New chapter: Fire & Ice.** 15 new cards, two feuding rivals (Brann Emberforge and Ysolde of the White Reach), a Fire & Ice pack in the shop, and the Solstice Dragon legend for completing the set. Unlocks after beating Old Marta.
+- **New: Tournaments.** A weekly knockout of four rivals with rotating rules. Unlocks after beating Brother Aldric.
+- **New: The Gauntlet.** Draft a deck and survive for up to 7 wins. Unlocks after beating Captain Ves.
+- **New: Champion rematches.** Every rival returns at full strength once you've beaten Mellana.
+- **New: Shiny cards** in every pack, with a small chance per card.
+- **New:** five more achievements and two new bounties.
+- **New:** the game now tells you when an update is ready, with a tap to refresh.
 
 ### Update 1: Puzzles, pass and play, bounties and achievements
 - **New:** Puzzles mode with 12 puzzles, unlocked after the tutorial. First solve of each pays 10 coins.
@@ -51,11 +65,8 @@ New to it? Start with **Learn to play** on the main menu for a quick guided game
 
 ## Coming next
 
-- **Three new chapters:** Fire & Ice, Water & Thunder, and Shadow & Holy. Each brings new cards, two feuding rivals, its own card pack and a legend to collect.
-- **Shiny cards:** rare versions of existing cards to find in packs.
-- **Gauntlet:** draft a deck and see how many wins in a row you can manage.
-- **Tournaments:** knockout brackets at the Lantern Inn.
-- **Champion rematches:** rivals return tougher once you've beaten them all.
+- **Update 3: Shadow & Holy.** A new chapter with a fallen knight, a cathedral oracle and 15 new cards.
+- **Update 4: Water & Thunder.** A storm-caller, a tide priestess and another 15 cards.
 
 Ideas on the table for later: special cards that bend the rules.
 
