@@ -1,23 +1,35 @@
 # Solaris Gambit
 
-A tavern card game under the stars. Nine squares, ten cards, one winner.
+*A tavern card game under the stars. Nine squares, ten cards, one winner.*
 
-## Putting it online (GitHub Pages)
+## [▶ Play Solaris Gambit](https://YOUR-USERNAME.github.io/solaris-gambit/)
 
-1. Upload everything in this folder (keep the `icons` folder as it is) to a GitHub repository.
-2. In the repository go to **Settings → Pages**, set **Source** to "Deploy from a branch", pick `main` and `/ (root)`, and save.
-3. After a minute or two the game is live at `https://<your-username>.github.io/<repository-name>/`.
+Free to play in your phone's browser. No account, no ads.
 
-## Installing on a phone
-#
-## [▶ Play Solaris Gambit](https://kralnu90.github.io/Solaris-Gambit/)
+## Install it on your phone
 
-Open the address in Chrome and tap **Install app** (or menu → **Add to Home screen**). On iPhone use Safari → Share → **Add to Home Screen**.
+- **Android:** open the link in Chrome, then tap **Install app** (or menu → **Add to Home screen**).
+- **iPhone:** open the link in Safari, then tap **Share → Add to Home Screen**.
 
-## Updating the game
+It then sits on your home screen like any other app and works without signal.
 
-Replace `index.html` with the new version, then open `sw.js` and change `sg-v1` to `sg-v2` (and so on) so phones pick up the update.
+## How to play
 
-## Moving your progress
+Each card has four numbers, one for each side. Take turns placing cards on a 3×3 board. When your card touches an opponent's card and your number on that side is higher, their card flips to your colour. Own the most cards when the board fills to win. A counts as 10.
 
-Progress is stored on each device. Use **Backup** in the game to copy your save code, then paste it into **Backup → Restore** on the other device.
+New to it? Start with **Learn to play** on the main menu for a quick guided game.
+
+## What's inside
+
+- **Eight rivals** to beat in turn, from Pip the stablehand to the mysterious Mellana, each with their own rules, personality and something to say about your play.
+- **Win their cards.** Rivals play for keeps, so every match can grow or shrink your collection.
+- **Card packs** to open with the coins you earn.
+- **A daily challenge** with the same hands for everyone, every day.
+- **The Card Forge** for designing your own cards.
+- **Legend cards** for those who beat the toughest rivals.
+- **Friendly games** to practise with no stakes.
+- Extra rules as you progress: Mirror, Sum, Chain, Edge, Aether and Overtime.
+
+## Your progress
+
+Progress is saved on your device. To keep it safe or move it to a new phone, open **Backup** in the game, copy your save code, and paste it into **Restore** on the other device.
