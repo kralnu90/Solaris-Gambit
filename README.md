@@ -10,7 +10,7 @@ A tavern card game under the stars. Nine squares, ten cards, one winner.
 
 ## Installing on a phone
 #
-## [▶ Play Solaris Gambit](https://kralnu90.github.io/solaris-gambit/)
+## [▶ Play Solaris Gambit](https://kralnu90.github.io/Solaris-Gambit/)
 
 Open the address in Chrome and tap **Install app** (or menu → **Add to Home screen**). On iPhone use Safari → Share → **Add to Home Screen**.
 
