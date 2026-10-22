@@ -41,6 +41,9 @@ New to it? Start with **Learn to play** on the main menu for a quick guided game
 
 ## What's new
 
+### Small update: a fairer daily challenge
+- **Changed:** both players now get one card of each level, your opponent goes first so you get the last move, and draws go to Overtime instead of ending level.
+
 ### Small update: rules guide and tooltips
 - **New:** a full **Rules guide** under How to play, with worked examples for every rule and some tips.
 - **New:** tap any rule tag, in a game or on the rivals screen, for a quick explanation with an example.
