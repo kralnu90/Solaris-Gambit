@@ -41,6 +41,9 @@ New to it? Start with **Learn to play** on the main menu for a quick guided game
 
 ## What's new
 
+### Small update: copyright protection
+- Added a licence and copyright notice. Solaris Gambit is © 2026 kralnu90, all rights reserved.
+
 ### Update 2: Fire & Ice, the Gauntlet and tournaments
 - **New chapter: Fire & Ice.** 15 new cards, two feuding rivals (Brann Emberforge and Ysolde of the White Reach), a Fire & Ice pack in the shop, and the Solstice Dragon legend for completing the set. Unlocks after beating Old Marta.
 - **New: Tournaments.** A weekly knockout of four rivals with rotating rules. Unlocks after beating Brother Aldric.
@@ -73,3 +76,7 @@ Ideas on the table for later: special cards that bend the rules.
 ## Your progress
 
 Progress is saved on your device. To keep it safe or move it to a new phone, open **Backup** in the game, copy your save code, and paste it into **Restore** on the other device.
+
+## Copyright
+
+© 2026 kralnu90. All rights reserved. Solaris Gambit's code, cards, characters and text may not be copied, modified or redistributed without permission. See [LICENSE](LICENSE) for details.
