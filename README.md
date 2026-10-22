@@ -37,9 +37,14 @@ New to it? Start with **Learn to play** on the main menu for a quick guided game
 - **The Card Forge** for designing your own signature card.
 - **Legend cards** for those who beat the toughest rivals.
 - **Friendly games** against rivals you've met, with no stakes.
-- Extra rules as you progress: Mirror, Sum, Chain, Edge, Aether and Overtime.
+- Extra rules as you progress: Mirror, Sum, Chain, Edge, Aether and Overtime. Tap any rule in the game to see how it works.
 
 ## What's new
+
+### Small update: rules guide and tooltips
+- **New:** a full **Rules guide** under How to play, with worked examples for every rule and some tips.
+- **New:** tap any rule tag, in a game or on the rivals screen, for a quick explanation with an example.
+- **New:** the card reward screen now shows which cards you already own.
 
 ### Small update: copyright protection
 - Added a licence and copyright notice. Solaris Gambit is © 2026 kralnu90, all rights reserved.
