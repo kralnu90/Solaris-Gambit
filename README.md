@@ -31,15 +31,23 @@ New to it? Start with **Learn to play** on the main menu for a quick guided game
 - **Puzzles.** Twelve hand-picked boards, one move each. Find the placement that flips enough cards.
 - **Pass and play.** Two players on one phone, with hidden hands if you want them.
 - **Daily bounties.** Three small tasks a day for bonus coins.
-- **Achievements.** Twenty-four goals, each with a coin reward.
+- **Achievements.** Twenty-six goals, each with a coin reward.
 - **A daily challenge** with the same hands for everyone, every day.
 - **Card packs** to open with the coins you earn.
-- **The Card Forge** for designing your own signature card.
+- **Your signature card.** A one-of-a-kind card that starts at 3-3-3-3 and grows with you. It can never be lost.
+- **The Altar.** Scrap spare cards for coins, trade three copies up a level, or sacrifice A cards to the stars for Star Fragments.
 - **Legend cards** for those who beat the toughest rivals.
 - **Friendly games** against rivals you've met, with no stakes.
 - Extra rules as you progress: Mirror, Sum, Chain, Edge, Aether and Overtime. Tap any rule in the game to see how it works.
 
 ## What's new
+
+### Update 2.5: The Altar and your signature card
+- **New: your signature card.** Everyone now has one personal card that starts at 3-3-3-3. Name it, pick its element, and raise its sides with coins (up to 9 each, within a point limit that grows as you beat rivals). It can never be lost, scrapped or sacrificed, and you can respec it any time.
+- **New: The Altar.** Scrap spare copies for coins, trade three copies of a card for a random card one level higher, or sacrifice cards with an A for a 1 in 4 chance of a Star Fragment. Every fourth try without one is guaranteed, and shiny cards always give one.
+- **New: Hearts of a Dying Star.** Fuse four Star Fragments into a Heart, then spend it to push your signature card past its limits, all the way to A sides and a total of 34. Fragments also come from perfect Gauntlet runs, tournament wins, first champion wins and some achievements.
+- **Changed:** the old Card Forge is gone. Any cards you forged were retired with a full refund.
+- **New:** two more achievements.
 
 ### Small update: a fairer daily challenge
 - **Changed:** both players now get one card of each level, your opponent goes first so you get the last move, and draws go to Overtime instead of ending level.
