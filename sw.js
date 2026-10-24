@@ -1,6 +1,6 @@
 // Solaris Gambit offline support. Bump VERSION whenever you upload a new index.html.
 // Only clears caches starting 'sg-', so other games on this site (like Fairway Tales) keep their offline copies.
-const VERSION = 'sg-v10';
+const VERSION = 'sg-v11';
 const SHELL = ['./', './index.html', './manifest.webmanifest', './icons/icon-192.png', './icons/icon-512.png', './icons/icon-maskable-512.png', './icons/apple-touch-icon.png'];
 
 self.addEventListener('install', e => {

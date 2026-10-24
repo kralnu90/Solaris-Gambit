@@ -42,6 +42,9 @@ New to it? Start with **Learn to play** on the main menu for a quick guided game
 
 ## What's new
 
+### Small update: reviews
+- **New:** a **Review** button on the main menu. Tell us what you think in about a minute.
+
 ### Update 2.5: The Altar and your signature card
 - **New: your signature card.** Everyone now has one personal card that starts at 3-3-3-3. Name it, pick its element, and raise its sides with coins (up to 9 each, within a point limit that grows as you beat rivals). It can never be lost, scrapped or sacrificed, and you can respec it any time.
 - **New: The Altar.** Scrap spare copies for coins, trade three copies of a card for a random card one level higher, or sacrifice cards with an A for a 1 in 4 chance of a Star Fragment. Every fourth try without one is guaranteed, and shiny cards always give one.
@@ -88,6 +91,10 @@ New to it? Start with **Learn to play** on the main menu for a quick guided game
 - **Update 4: Water & Thunder.** A storm-caller, a tide priestess and another 15 cards.
 
 Ideas on the table for later: special cards that bend the rules.
+
+## Feedback
+
+Enjoying it, or found something odd? [Leave a review](https://forms.gle/MMDpbhCNALUvpBe68). It takes about a minute.
 
 ## Your progress
 
