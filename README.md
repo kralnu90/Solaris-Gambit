@@ -42,6 +42,13 @@ New to it? Start with **Learn to play** on the main menu for a quick guided game
 
 ## What's new
 
+### Update 2.6: a fresh coat of paint
+- **New look for the cards.** Richer colours with a lit top edge, a fine inner frame that turns brass at level 3 and gold at level 5, a scatter of stars on every face, glowing sigils and clearer numbers. Card backs get a gold star emblem.
+- **A proper table.** The board is now velvet in a brass frame with corner studs, and the squares sit sunken into it. Open squares glow softly on your turn.
+- **Livelier plays.** Cards drop onto the board with a ring of light, and flipped cards flash and throw off sparks as they turn.
+- **The night sky.** Rolling hills on the horizon with a tavern, lit windows and a smoking chimney, fireflies, and the odd shooting star.
+- **Smaller touches.** A gilded title, a shimmer on the main menu button and softer panels throughout.
+
 ### Small update: reviews
 - **New:** a **Review** button on the main menu. Tell us what you think in about a minute.
 
