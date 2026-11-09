@@ -109,4 +109,10 @@ Progress is saved on your device. To keep it safe or move it to a new phone, ope
 
 ## Copyright
 
+## Updates
+
+The game checks for a newer version when it opens and when you come back to it. If there is one, players see a small "A new version is ready" notice with an **Update** button, and there's a **Get the latest version** button in the menu at any time.
+
+When pushing an update: change the game's version number and put the same value in `version.json`.
+
 © 2026 kralnu90. All rights reserved. Solaris Gambit's code, cards, characters and text may not be copied, modified or redistributed without permission. See [LICENSE](LICENSE) for details.

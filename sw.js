@@ -22,9 +22,11 @@ self.addEventListener('fetch', e => {
     return;
   }
   if (url.origin !== location.origin) return;
+  // version.json is the update check: always ask the network, never keep a copy.
+  if (url.pathname.endsWith('/version.json')) return;
   // The game page: try the network first so updates arrive, fall back to the saved copy offline.
   if (e.request.mode === 'navigate') {
-    e.respondWith(fetch(e.request).then(res => { const copy = res.clone(); caches.open(VERSION).then(c => c.put('./index.html', copy)); return res; })
+    e.respondWith(fetch(e.request, { cache: 'no-cache' }).then(res => { const copy = res.clone(); caches.open(VERSION).then(c => c.put('./index.html', copy)); return res; })
       .catch(() => caches.match('./index.html')));
     return;
   }
