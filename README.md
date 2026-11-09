@@ -22,7 +22,7 @@ New to it? Start with **Learn to play** on the main menu for a quick guided game
 ## What's inside
 
 - **Eight rivals** to beat in turn, from Pip the stablehand to the mysterious Mellana. Each has their own rules, personality and something to say about your play, and they get sharper as you climb.
-- **Chapters.** The first, *Fire & Ice*, brings 15 new cards, two feuding rivals, its own card pack and a legend for collecting the set.
+- **Chapters.** *Fire & Ice* and *Shadow & Holy* each bring 15 new cards, two feuding rivals, their own card pack and a legend for collecting the set.
 - **The Gauntlet.** Draft a deck from random picks and win as many matches in a row as you can.
 - **Weekly tournaments.** Four rivals back to back, with new rules every week.
 - **Champion rematches.** Beat everyone, and they come back at full strength.
@@ -31,7 +31,7 @@ New to it? Start with **Learn to play** on the main menu for a quick guided game
 - **Puzzles.** Twelve hand-picked boards, one move each. Find the placement that flips enough cards.
 - **Pass and play.** Two players on one phone, with hidden hands if you want them.
 - **Daily bounties.** Three small tasks a day for bonus coins.
-- **Achievements.** Twenty-six goals, each with a coin reward.
+- **Achievements.** Twenty-seven goals, each with a coin reward.
 - **A daily challenge** with the same hands for everyone, every day.
 - **Card packs** to open with the coins you earn.
 - **Your signature card.** A one-of-a-kind card that starts at 3-3-3-3 and grows with you. It can never be lost.
@@ -41,6 +41,11 @@ New to it? Start with **Learn to play** on the main menu for a quick guided game
 - Extra rules as you progress: Mirror, Sum, Chain, Edge, Aether and Overtime. Tap any rule in the game to see how it works.
 
 ## What's new
+
+### Update 3: Shadow & Holy
+- **New chapter: Shadow & Holy.** 15 new cards, two rivals who used to be on the same side (Sir Caedric the Fallen and Oracle Seraphine), a Shadow & Holy pack in the shop, and the Eclipse Seraph legend for completing the set. Unlocks after beating Sel & Nara.
+- **New:** a Light and Shade achievement for collecting the whole chapter.
+- **Changed:** Gauntlet drafts can now include Shadow & Holy cards once the chapter is open.
 
 ### Update 2.6: a fresh coat of paint
 - **New look for the cards.** Richer colours with a lit top edge, a fine inner frame that turns brass at level 3 and gold at level 5, a scatter of stars on every face, glowing sigils and clearer numbers. Card backs get a gold star emblem.
@@ -94,7 +99,6 @@ New to it? Start with **Learn to play** on the main menu for a quick guided game
 
 ## Coming next
 
-- **Update 3: Shadow & Holy.** A new chapter with a fallen knight, a cathedral oracle and 15 new cards.
 - **Update 4: Water & Thunder.** A storm-caller, a tide priestess and another 15 cards.
 
 Ideas on the table for later: special cards that bend the rules.
@@ -107,12 +111,12 @@ Enjoying it, or found something odd? [Leave a review](https://forms.gle/MMDpbhCN
 
 Progress is saved on your device. To keep it safe or move it to a new phone, open **Backup** in the game, copy your save code, and paste it into **Restore** on the other device.
 
-## Copyright
-
 ## Updates
 
 The game checks for a newer version when it opens and when you come back to it. If there is one, players see a small "A new version is ready" notice with an **Update** button, and there's a **Get the latest version** button in the menu at any time.
 
-When pushing an update: change the game's version number and put the same value in `version.json`.
+When pushing an update: change the game's version number, put the same value in `version.json`, and bump `VERSION` in `sw.js`.
+
+## Copyright
 
 © 2026 kralnu90. All rights reserved. Solaris Gambit's code, cards, characters and text may not be copied, modified or redistributed without permission. See [LICENSE](LICENSE) for details.
