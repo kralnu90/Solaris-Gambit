@@ -22,7 +22,7 @@ New to it? Start with **Learn to play** on the main menu for a quick guided game
 ## What's inside
 
 - **Eight rivals** to beat in turn, from Pip the stablehand to the mysterious Mellana. Each has their own rules, personality and something to say about your play, and they get sharper as you climb.
-- **Chapters.** *Fire & Ice* and *Shadow & Holy* each bring 15 new cards, two feuding rivals, their own card pack and a legend for collecting the set.
+- **Chapters.** *Fire & Ice*, *Shadow & Holy* and *Water & Thunder* each bring 15 new cards, two feuding rivals, their own card pack and a legend for collecting the set.
 - **The Gauntlet.** Draft a deck from random picks and win as many matches in a row as you can.
 - **Weekly tournaments.** Four rivals back to back, with new rules every week.
 - **Champion rematches.** Beat everyone, and they come back at full strength.
@@ -31,7 +31,7 @@ New to it? Start with **Learn to play** on the main menu for a quick guided game
 - **Puzzles.** Twelve hand-picked boards, one move each. Find the placement that flips enough cards.
 - **Pass and play.** Two players on one phone, with hidden hands if you want them.
 - **Daily bounties.** Three small tasks a day for bonus coins.
-- **Achievements.** Twenty-seven goals, each with a coin reward.
+- **Achievements.** Twenty-eight goals, each with a coin reward.
 - **A daily challenge** with the same hands for everyone, every day.
 - **Card packs** to open with the coins you earn.
 - **Your signature card.** A one-of-a-kind card that starts at 3-3-3-3 and grows with you. It can never be lost.
@@ -41,6 +41,10 @@ New to it? Start with **Learn to play** on the main menu for a quick guided game
 - Extra rules as you progress: Mirror, Sum, Chain, Edge, Aether and Overtime. Tap any rule in the game to see how it works.
 
 ## What's new
+
+### Update 4: Water & Thunder
+- **New chapter: Water & Thunder.** 15 new cards, a storm-caller and a tide priestess at odds (Vael Stormcrow and Mother Nerissa), a Water & Thunder pack in the shop, and the Maelstrom Leviathan legend for completing the set. Unlocks after beating Lady Corvina.
+- **New:** a Calm and Storm achievement for collecting the whole chapter.
 
 ### Update 3: Shadow & Holy
 - **New chapter: Shadow & Holy.** 15 new cards, two rivals who used to be on the same side (Sir Caedric the Fallen and Oracle Seraphine), a Shadow & Holy pack in the shop, and the Eclipse Seraph legend for completing the set. Unlocks after beating Sel & Nara.
@@ -99,9 +103,7 @@ New to it? Start with **Learn to play** on the main menu for a quick guided game
 
 ## Coming next
 
-- **Update 4: Water & Thunder.** A storm-caller, a tide priestess and another 15 cards.
-
-Ideas on the table for later: special cards that bend the rules.
+More rivals, cards and modes as the game grows.
 
 ## Feedback
 
