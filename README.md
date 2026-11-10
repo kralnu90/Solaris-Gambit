@@ -23,7 +23,7 @@ New to it? Start with **Learn to play** on the main menu for a quick guided game
 
 - **Eight rivals** to beat in turn, from Pip the stablehand to the mysterious Mellana. Each has their own rules, personality and something to say about your play, and they get sharper as you climb.
 - **Chapters.** *Fire & Ice*, *Shadow & Holy* and *Water & Thunder* each bring 15 new cards, two feuding rivals, their own card pack and a legend for collecting the set.
-- **The Gauntlet.** Draft a deck from random picks and win as many matches in a row as you can.
+- **The Gauntlet.** Beat all eight rivals, then draft a deck from random picks and win as many matches in a row as you can.
 - **Weekly tournaments.** Four rivals back to back, with new rules every week.
 - **Champion rematches.** Beat everyone, and they come back at full strength.
 - **Shiny cards.** Rare shimmering versions to find in packs.
@@ -41,6 +41,13 @@ New to it? Start with **Learn to play** on the main menu for a quick guided game
 - Extra rules as you progress: Mirror, Sum, Chain, Edge, Aether and Overtime. Tap any rule in the game to see how it works.
 
 ## What's new
+
+### Small update: safer saves and fairer unlocks
+- **Safer saves.** The game now keeps a second copy of your progress and puts it back automatically if your main save ever goes missing.
+- **Changed:** the Gauntlet now unlocks after you beat all eight rivals. A run already under way stays open.
+- **Changed:** Gauntlet opponents only borrow the personalities of rivals you've already met.
+- **Changed:** each chapter's legend stays a mystery until you beat both of its rivals.
+- **Changed:** the "New pack" note on the Shop button now goes away once you've visited the shop.
 
 ### Update 4: Water & Thunder
 - **New chapter: Water & Thunder.** 15 new cards, a storm-caller and a tide priestess at odds (Vael Stormcrow and Mother Nerissa), a Water & Thunder pack in the shop, and the Maelstrom Leviathan legend for completing the set. Unlocks after beating Lady Corvina.
