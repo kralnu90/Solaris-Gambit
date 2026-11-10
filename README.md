@@ -22,7 +22,7 @@ New to it? Start with **Learn to play** on the main menu for a quick guided game
 ## What's inside
 
 - **Eight rivals** to beat in turn, from Pip the stablehand to the mysterious Mellana. Each has their own rules, personality and something to say about your play, and they get sharper as you climb.
-- **Chapters.** *Fire & Ice*, *Shadow & Holy* and *Water & Thunder* each bring 15 new cards, two feuding rivals, their own card pack and a legend for collecting the set.
+- **Chapters.** *Fire & Ice*, *Shadow & Holy*, *Water & Thunder* and *Earth & Wind* each bring 15 new cards, two feuding rivals, their own card pack and a legend for collecting the set.
 - **The Gauntlet.** Beat all eight rivals, then draft a deck from random picks and win as many matches in a row as you can.
 - **Weekly tournaments.** Four rivals back to back, with new rules every week.
 - **Champion rematches.** Beat everyone, and they come back at full strength.
@@ -31,7 +31,7 @@ New to it? Start with **Learn to play** on the main menu for a quick guided game
 - **Puzzles.** Twelve hand-picked boards, one move each. Find the placement that flips enough cards.
 - **Pass and play.** Two players on one phone, with hidden hands if you want them.
 - **Daily bounties.** Three small tasks a day for bonus coins.
-- **Achievements.** Twenty-eight goals, each with a coin reward.
+- **Achievements.** Twenty-nine goals, each with a coin reward.
 - **A daily challenge** with the same hands for everyone, every day.
 - **Card packs** to open with the coins you earn.
 - **Your signature card.** A one-of-a-kind card that starts at 3-3-3-3 and grows with you. It can never be lost.
@@ -41,6 +41,10 @@ New to it? Start with **Learn to play** on the main menu for a quick guided game
 - Extra rules as you progress: Mirror, Sum, Chain, Edge, Aether and Overtime. Tap any rule in the game to see how it works.
 
 ## What's new
+
+### Update 5: Earth & Wind
+- **New chapter: Earth & Wind.** The last two elements arrive with 15 new cards, a stubborn mountain miner and the sky-pirate who raids his peaks (Gorran Deepdelve and Kestrel Vane), an Earth & Wind pack in the shop, and the Skyroot Colossus legend for completing the set. Unlocks after beating the Hexbound Stranger.
+- **New:** a Stone and Sky achievement for collecting the whole chapter.
 
 ### Small update: safer saves and fairer unlocks
 - **Safer saves.** The game now keeps a second copy of your progress and puts it back automatically if your main save ever goes missing.
