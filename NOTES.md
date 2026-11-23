@@ -1,5 +1,5 @@
 # Solaris Gambit · Handover notes
-Last updated: 23 Nov 2026 · game version 1.0.0-rc2
+Last updated: 23 Nov 2026 · game version 1.0.0-rc3
 
 ## The project
 - A nine-square card duel against tavern rivals, by Kralnu Games. Content-complete: eight main rivals, four element chapters (Fire & Ice, Shadow & Holy, Water & Thunder, Earth & Wind), Gauntlet, weekly tournaments, puzzles, daily challenge, the Altar, the signature card and 29 achievements.
@@ -71,6 +71,7 @@ Last updated: 23 Nov 2026 · game version 1.0.0-rc2
   - Dev mode removed completely.
   - README now presents the game as complete, with a v1.0.0 entry and a Credits section.
   - Levels at the defaults (music 50%, effects 100%): music peaks around 0.05, effects 0.12–0.28, so music sits underneath.
+- **Hotfix (1.0.0-rc3):** the suspend save added in rc1 also fired when the game reloaded itself to restore the IndexedDB backup, writing the empty in-memory save back and causing a reload loop. Fix: set `WIPING=true` before that reload. Whenever code writes a save to storage and then reloads, set `WIPING` first. Tests that inject a save must seed it before the page loads (addInitScript), never with setItem followed by reload.
 - **Session 3 (planned):** balance sims and proposals, full QA, 1.0.0 release.
 
 ## Open questions / ideas for later
