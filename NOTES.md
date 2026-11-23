@@ -1,11 +1,11 @@
 # Solaris Gambit · Handover notes
-Last updated: 22 Nov 2026 · game version 1.0.0-rc1
+Last updated: 23 Nov 2026 · game version 1.0.0-rc2
 
 ## The project
 - A nine-square card duel against tavern rivals, by Kralnu Games. Content-complete: eight main rivals, four element chapters (Fire & Ice, Shadow & Holy, Water & Thunder, Earth & Wind), Gauntlet, weekly tournaments, puzzles, daily challenge, the Altar, the signature card and 29 achievements.
 - Live: https://kralnugames.com/Solaris-Gambit/ (GitHub Pages from `kralnu90/Solaris-Gambit`, custom domain through the hub repo `kralnu90.github.io`).
 - Files: `index.html` (the whole game: plain JS, DOM and canvas, no build step, very long minified-style lines), `sw.js` (offline cache), `manifest.webmanifest`, `version.json` (update check), `icons/`, `README.md`, `LICENSE`, `SOLARIS-RELEASE-PLAN.md` (the v1.0.0 brief), this file.
-- Save: `localStorage['ninefold-save']` plus an IndexedDB copy (`solaris-gambit` db, `kv` store, keys `save` and `at`) written by `safeBackup()`. On load, `readBackup()` puts the copy back if it's clearly further along than localStorage. Dev saves use `ninefold-dev`.
+- Save: `localStorage['ninefold-save']` plus an IndexedDB copy (`solaris-gambit` db, `kv` store, keys `save` and `at`) written by `safeBackup()`. On load, `readBackup()` puts the copy back if it's clearly further along than localStorage. The old dev save key `ninefold-dev` is no longer read (dev mode was removed in 1.0.0-rc2).
 - **Why "ninefold":** the game's working title was Ninefold. The keys keep that name on purpose. **Never rename them**, or every player loses their progress. New save fields go through `migrate()` with a safe default.
 
 ## Kris's house rules (short version)
@@ -16,7 +16,7 @@ Last updated: 22 Nov 2026 · game version 1.0.0-rc1
 - Free forever, no ads, no IAP, works offline, phone first.
 - Guardrails: warn before anything that costs money or puts secrets or personal details in this public repo. Never name Kris's son or wife in anything public.
 - Don't change balance, rules or content without showing Kris the numbers first.
-- **Delivery:** Claude commits and pushes to the work branch, but only after Kris confirms.
+- **Delivery:** commit on the work branch, then wait. When Kris says **"push"**, that means **go live**: merge into `main` and push it, so GitHub Pages deploys to everyone. Never push before he says so. Check `origin/main` first, in case he edited files (especially the README) on GitHub.
 
 ## How to work on it
 - Don't read `index.html` whole. Find code with `grep -o ".\{0,200\}ANCHOR.\{0,300\}" index.html` and edit with a Python script that asserts each anchor matches exactly once before replacing.
@@ -30,7 +30,9 @@ Last updated: 22 Nov 2026 · game version 1.0.0-rc1
 - **Menus (v1.0 shell):** `ICONS`, `icon()`, `tile()`, `homeInfo()`, `renderHome`, `renderPlay`, `renderQuick`, `renderCards`, `renderMore`, `renderSettings`, `renderCredits`, `renderNews`, `CHANGELOG`. Screens are listed in `SCREENS` and opened with `show(id)`. Tiles use `data-go="<screen>"`. The CSS is in the `v1.0 shell` style block.
 - **Back buttons:** every screen's Back is the pill top-left of its `.bar`. Guide and Settings remember where they were opened from in `dataset.back` (including `'game'` from the pause menu).
 - **Pause menu:** `openPause`, `closePause`, `leaveMatch`, `leaveQuiet`, `pauseNote`. The stakes are the same as v16: Gauntlet adds a loss, Tournament knocks you out, leaving a rival match costs nothing (to revisit), and puzzles and finished matches leave on one tap. Everything else asks you to tap twice.
-- **Settings and sound:** `SAVE.sound` (on/off, also the in-game Sound pill `[data-mute]`, `syncMute()`), `SAVE.sfxVol` (0–100), `sfxBus()` (master gain for all effects), `SFX`, `tone()`, `noise()`, `ac()`.
+- **Settings and sound:** `SAVE.sound` (sound effects on/off, the Sound pill `[data-mute]` in Settings and in matches, `syncMute()`), `SAVE.sfxVol` (0–100), `sfxBus()` (master gain for all effects), `SFX`, `tone()`, `noise()`, `ac()`.
+- **Music:** `MOODS` (night = menus, tavern = matches, finale), `Music` (scheduler: `refresh`, `set(mood)`, `start`, `stop`, `beat`, synth voices `pad`/`pluck`/`bell`/`hit`). `SAVE.music` (on/off, the Music pill `[data-music]` in Settings, `syncMusic()`) and `SAVE.musicVol` (0–100, default 50). Music starts on the first tap, stops when the app is hidden, and `show()` picks the mood. Old saves with sound off start with music off too.
+- **Finale:** `ENDING_LINES` (**Kris: rewrite the ending text here**; `who:''` lines are narration), `maybeFinale` (runs after every screen change except the game: all eight main rivals beaten, `SAVE.finaleSeen` false, no panel open), `playFinale`, `finLine`, `finRoll` (credits roll), `finEnd` (end card: Champion rematches / Gauntlet / Menu), `finClose`. Replay button `#replayEnd` in Credits once seen.
 - **Saving:** `store`, `persist()` (skipped while `WIPING`), suspend save on `pagehide` and `visibilitychange` (when hidden), `safeBackup`, `readBackup`, `progressOf`, `migrate`, `newSave`.
 - **Reset:** `resetStep()`, `wipeSave()`, `wipeBackup()`. It overwrites the IndexedDB copy with a fresh save so it can't restore itself, keeps sound settings, then reloads.
 - **Rivals and chapters:** `RIVALS` (chapter rivals have a `chapter` field), `CHAPTERS`, `openChapters`, `gate` (unlock rules: `gate.tourney`, `gate.gauntlet`, `gate.champ`, chapter gates), `unlocked(i)`, `startRival`, champion rematches via `data-champ`.
@@ -43,7 +45,7 @@ Last updated: 22 Nov 2026 · game version 1.0.0-rc1
 - **Achievements:** `ACH`, `unlockAch`, `checkState` (catches up achievements on load).
 - **Match engine:** `setupMatch`, `play`, `aiMove`, `finish`, `endButtons`, `M` (current match).
 - **Updates and install:** `checkUpdate()` (compares `version.json` with `APP_VERSION` using `!==`, shows `#updateBar`), `window.KralnuUpdate` (Get Latest Version, `data-get-latest`), the Kralnu install kit (`data-install`, shown only when the `kg-can-install` class is on `<html>`).
-- **Dev mode (to be removed in Session 2):** `DEV_HASH`, `#devO` (tap the O in the title seven times), `#devLogin`, `#devPanel`, `devSave`, `localStorage['ninefold-devmode']`.
+- **Dev mode:** removed in 1.0.0-rc2 (no password box, panel or DEV checks). The game clears any old `ninefold-devmode` flag on load. To test late-game content, inject a save in Playwright instead.
 
 ## Release checklist
 1. Bump `APP_VERSION` (index.html), `version.json` and `sw.js` `VERSION` together.
@@ -63,10 +65,16 @@ Last updated: 22 Nov 2026 · game version 1.0.0-rc1
   - Pause menu replaces the Leave button.
   - Suspend save on `pagehide`.
   - Version shown in the bottom corner of the home screen.
-- **Session 2 (planned):** generated music with menu, match and finale moods, plus the Music slider in Settings. Finale scene (`ENDING_LINES`) and credits roll. Remove dev mode completely (Kris's choice). README rewritten as "complete".
+- **Session 2 (1.0.0-rc2):**
+  - Generated music with three moods, and separate Sound and Music on/off pills, each with its own volume slider, in Settings.
+  - Finale scene (placeholder text in `ENDING_LINES`), credits roll and end card. Plays once, including for players who had already beaten all eight. Replay from Credits.
+  - Dev mode removed completely.
+  - README now presents the game as complete, with a v1.0.0 entry and a Credits section.
+  - Levels at the defaults (music 50%, effects 100%): music peaks around 0.05, effects 0.12–0.28, so music sits underneath.
 - **Session 3 (planned):** balance sims and proposals, full QA, 1.0.0 release.
 
 ## Open questions / ideas for later
+- The ending text is a placeholder for Kris to rewrite (`ENDING_LINES`).
 - Leaving a rival match halfway is still free, as in v16, even in a losing "for keeps" match. Reloading the page mid-match also gets you out. Revisit in Session 3 with numbers (Kris chose to keep it for now).
 - Before the tutorial is finished, the big Play tile starts the tutorial, so the Play panel isn't reachable until it's done. A brand-new player always starts with the tutorial; restored saves are unaffected.
 - The coin toss and rock-paper-scissors panels cover the Pause button for the few seconds they're up (Leave was covered the same way in v16).

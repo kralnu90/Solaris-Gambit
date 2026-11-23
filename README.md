@@ -4,7 +4,7 @@
 
 ## [▶ Play Solaris Gambit](https://kralnugames.com/Solaris-Gambit/)
 
-Free to play in your phone's browser. No account, no ads. Solaris Gambit is a living project: new modes, cards and rivals are added as it grows.
+Free to play in your phone's browser. No account, no ads, no in-app purchases. Solaris Gambit is complete: every rival, chapter and mode is in, and the story has its ending.
 
 ## Install it on your phone
 
@@ -38,9 +38,20 @@ New to it? Start with **Learn to play** on the main menu for a quick guided game
 - **The Altar.** Scrap spare cards for coins, trade three copies up a level, or sacrifice A cards to the stars for Star Fragments.
 - **Legend cards** for those who beat the toughest rivals.
 - **Friendly games** against rivals you've met, with no stakes.
+- **A proper ending.** Beat all eight rivals to see how the story ends, followed by the credits.
+- **Music and sound** made by your device as you play: a night-sky theme for the menus, a tavern tune for matches and something special for the finale.
 - Extra rules as you progress: Mirror, Sum, Chain, Edge, Aether and Overtime. Tap any rule in the game to see how it works.
 
 ## What's new
+
+### Version 1.0.0: the finished game
+- **A new main menu.** Big tiles instead of a long list: Play, Collection, Goals, Settings and More. Every mode now sits under Play.
+- **Music.** Gentle tunes made as you play, with a theme for the menus, the matches and the finale.
+- **A proper ending.** Beat all eight rivals for the final scene and the credits. You can replay it any time from Credits.
+- **Settings.** Separate on/off and volume for music and sound effects, house rules, save backup and a safe way to reset your save.
+- **Pause menu.** Tap Pause in any match for Settings, How to Play or the main menu.
+- **Credits, What's New and Support** are now in the game, under More.
+- **Safer saves.** Your progress is also saved the moment you close or switch away from the game.
 
 ### Update 5: Earth & Wind
 - **New chapter: Earth & Wind.** The last two elements arrive with 15 new cards, a stubborn mountain miner and the sky-pirate who raids his peaks (Gorran Deepdelve and Kestrel Vane), an Earth & Wind pack in the shop, and the Skyroot Colossus legend for completing the set. Unlocks after beating the Hexbound Stranger.
@@ -112,9 +123,9 @@ New to it? Start with **Learn to play** on the main menu for a quick guided game
 - **Collection and rivals.** Starter deck, eight rivals with card trades, extra rules and legend cards.
 - **First version.** The core game against a computer opponent.
 
-## Coming next
+## Is it finished?
 
-More rivals, cards and modes as the game grows.
+Yes. Version 1.0 is the complete game. It may still get free updates now and then, with fixes and small extras.
 
 ## Feedback
 
@@ -122,13 +133,20 @@ Enjoying it, or found something odd? [Leave a review](https://forms.gle/MMDpbhCN
 
 ## Your progress
 
-Progress is saved on your device. To keep it safe or move it to a new phone, open **Backup** in the game, copy your save code, and paste it into **Restore** on the other device.
+Progress is saved on your device. To keep it safe or move it to a new phone, open **Settings → Save backup** in the game, copy your save code, and paste it into **Restore** on the other device.
 
 ## Updates
 
-The game checks for a newer version when it opens and when you come back to it. If there is one, players see a small "A new version is ready" notice with an **Update** button, and there's a **Get the latest version** button in the menu at any time.
+The game checks for a newer version when it opens and when you come back to it. If there is one, players see a small "A new version is ready" notice with an **Update** button, and there's a **Get latest version** button under **More** at any time.
 
 When pushing an update: change the game's version number, put the same value in `version.json`, and bump `VERSION` in `sw.js`.
+
+## Credits
+
+- Ideas, design and testing by Kris. Built with Claude, an AI by Anthropic.
+- Made by **Kralnu Games**: [kralnugames.com](https://kralnugames.com) · hello@kralnugames.com
+- Fonts: [Cinzel](https://fonts.google.com/specimen/Cinzel) by Natanael Gama and [Alegreya Sans](https://fonts.google.com/specimen/Alegreya+Sans) by Juan Pablo del Peral (Huerta Tipográfica), both under the SIL Open Font License 1.1.
+- All music and sound is generated in the game. No third-party audio or image files.
 
 ## Copyright
 
