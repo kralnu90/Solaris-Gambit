@@ -52,6 +52,8 @@ New to it? Start with **Learn to play** on the main menu for a quick guided game
 - **Pause menu.** Tap Pause in any match for Settings, How to Play or the main menu.
 - **Credits, What's New and Support** are now in the game, under More.
 - **Safer saves.** Your progress is also saved the moment you close or switch away from the game.
+- **Changed:** Sel & Nara and Gorran Deepdelve play a little less ruthlessly, so the difficulty climbs more smoothly.
+- **Smaller touches.** A short Kralnu Games title card on launch, and easier-to-tap buttons.
 
 ### Update 5: Earth & Wind
 - **New chapter: Earth & Wind.** The last two elements arrive with 15 new cards, a stubborn mountain miner and the sky-pirate who raids his peaks (Gorran Deepdelve and Kestrel Vane), an Earth & Wind pack in the shop, and the Skyroot Colossus legend for completing the set. Unlocks after beating the Hexbound Stranger.

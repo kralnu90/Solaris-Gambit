@@ -1,5 +1,5 @@
 # Solaris Gambit · Handover notes
-Last updated: 23 Nov 2026 · game version 1.0.0-rc3
+Last updated: 23 Nov 2026 · game version 1.0.0
 
 ## The project
 - A nine-square card duel against tavern rivals, by Kralnu Games. Content-complete: eight main rivals, four element chapters (Fire & Ice, Shadow & Holy, Water & Thunder, Earth & Wind), Gauntlet, weekly tournaments, puzzles, daily challenge, the Altar, the signature card and 29 achievements.
@@ -72,9 +72,17 @@ Last updated: 23 Nov 2026 · game version 1.0.0-rc3
   - README now presents the game as complete, with a v1.0.0 entry and a Credits section.
   - Levels at the defaults (music 50%, effects 100%): music peaks around 0.05, effects 0.12–0.28, so music sits underneath.
 - **Hotfix (1.0.0-rc3):** the suspend save added in rc1 also fired when the game reloaded itself to restore the IndexedDB backup, writing the empty in-memory save back and causing a reload loop. Fix: set `WIPING=true` before that reload. Whenever code writes a save to storage and then reloads, set `WIPING` first. Tests that inject a save must seed it before the page loads (addInitScript), never with setItem followed by reload.
-- **Session 3 (planned):** balance sims and proposals, full QA, 1.0.0 release.
+- **Session 3 (1.0.0, release):**
+  - **Balance sims:** bots play with the game's own engine (casual = skill 0.45, strong = 0.8). The main eight form a smooth curve (casual 44% vs Pip down to 6% vs Mellana). The Gauntlet averages about 5 wins casual and 6.2 strong. Economy and fragment pacing are fine.
+  - **Changes Kris approved:** Gorran Deepdelve skill 0.80 → 0.72 (strong-player win rate 13% → 25%; Kestrel stays the chapter's toughest). Sel & Nara skill 0.62 → 0.55 (eases the worst-case grind caused by their Random hand rule).
+  - **New:** a short Kralnu Games splash on launch (tap to skip, 1.3 s).
+  - **Tap targets:** pills and buttons get an invisible 44px touch area through `::before`; inputs, selects and Credits links are at least 44px tall. The small rule chips are the one exception: they're info tooltips in tightly wrapped rows.
+  - **QA checklist:** all items pass in headless Chromium (see the tests described above). The real-phone checks are still Kris's: actual sound, install on Android and iPhone, safe areas on a notched phone.
 
 ## Open questions / ideas for later
+- **Hub post (Kris to do):** a news item along the lines of "Solaris Gambit 1.0 is finished: a new menu, music, a proper ending and credits, pause menu and settings. Free, no ads, works offline." Then move the game's card out of WIP in `kralnu90.github.io`.
+- **Play Store (only when Kris says it's 101% done):** wrap as a TWA like To Remember (`to-remember/android/` and its GitHub Actions workflow). Costs a one-off $25 for a Google Play developer account if he doesn't have one. Needs a privacy policy page (all data stays on the device, no accounts, no tracking), screenshots, a feature graphic and the content rating questionnaire.
+- **Old dev password:** its SHA-256 hash was in the public repo before rc2 and is still in git history. Don't reuse that password anywhere.
 - The ending text is a placeholder for Kris to rewrite (`ENDING_LINES`).
 - Leaving a rival match halfway is still free, as in v16, even in a losing "for keeps" match. Reloading the page mid-match also gets you out. Revisit in Session 3 with numbers (Kris chose to keep it for now).
 - Before the tutorial is finished, the big Play tile starts the tutorial, so the Play panel isn't reachable until it's done. A brand-new player always starts with the tutorial; restored saves are unaffected.
