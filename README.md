@@ -30,12 +30,12 @@ New to it? Start with **Learn to play** on the main menu for a quick guided game
 - **Win their cards.** Rivals play for keeps, so every match can grow or shrink your collection.
 - **Puzzles.** Twelve hand-picked boards, one move each. Find the placement that flips enough cards.
 - **Pass and play.** Two players on one phone, with hidden hands if you want them.
-- **Daily bounties.** Three small tasks a day for bonus coins.
+- **Daily bounties.** Three small tasks a day for bonus K-Buks.
 - **Achievements.** Twenty-nine goals, each with a coin reward.
 - **A daily challenge** with the same hands for everyone, every day.
-- **Card packs** to open with the coins you earn.
+- **Card packs** to open with the K-Buks you earn.
 - **Your signature card.** A one-of-a-kind card that starts at 3-3-3-3 and grows with you. It can never be lost.
-- **The Altar.** Scrap spare cards for coins, trade three copies up a level, or sacrifice A cards to the stars for Star Fragments.
+- **The Altar.** Scrap spare cards for K-Buks, trade three copies up a level, or sacrifice A cards to the stars for Star Fragments.
 - **Legend cards** for those who beat the toughest rivals.
 - **Friendly games** against rivals you've met, with no stakes.
 - **A proper ending.** Beat all eight rivals to see how the story ends, followed by the credits.
@@ -43,6 +43,9 @@ New to it? Start with **Learn to play** on the main menu for a quick guided game
 - Extra rules as you progress: Mirror, Sum, Chain, Edge, Aether and Overtime. Tap any rule in the game to see how it works.
 
 ## What's new
+
+### Version 1.0.1: K-Buks (26 Nov 2026)
+- Coins are now K-Buks (Kb), the Kralnu Games currency, with a new hand-drawn gold coin icon. Your savings carry over exactly as they were.
 
 ### Version 1.0.0: the finished game
 - **A new main menu.** Big tiles instead of a long list: Play, Collection, Goals, Settings and More. Every mode now sits under Play.

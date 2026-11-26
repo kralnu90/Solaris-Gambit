@@ -1,5 +1,5 @@
 # Solaris Gambit · Handover notes
-Last updated: 23 Nov 2026 · game version 1.0.0
+Last updated: 26 Nov 2026 · game version 1.0.1
 
 ## The project
 - A nine-square card duel against tavern rivals, by Kralnu Games. Content-complete: eight main rivals, four element chapters (Fire & Ice, Shadow & Holy, Water & Thunder, Earth & Wind), Gauntlet, weekly tournaments, puzzles, daily challenge, the Altar, the signature card and 29 achievements.
@@ -87,3 +87,5 @@ Last updated: 23 Nov 2026 · game version 1.0.0
 - Leaving a rival match halfway is still free, as in v16, even in a losing "for keeps" match. Reloading the page mid-match also gets you out. Revisit in Session 3 with numbers (Kris chose to keep it for now).
 - Before the tutorial is finished, the big Play tile starts the tutorial, so the Play panel isn't reachable until it's done. A brand-new player always starts with the tutorial; restored saves are unaffected.
 - The coin toss and rock-paper-scissors panels cover the Pause button for the few seconds they're up (Leave was covered the same way in v16).
+
+- **Session (1.0.1, 26 Nov 2026):** coins renamed to **K-Buks** (Kb), the shared Kralnu Games currency. Player-facing text only; the save still uses `SAVE.coins`. The `.coins::before` icon is now Kris's hand-drawn 16×16 K coin, embedded as a data URI. The signature card's "coin limit" is now called the "point limit".
